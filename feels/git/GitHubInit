@@ -1,0 +1,8 @@
+GitHub 创建 repository，将本地项目上传到GitHub步骤：
+在你所在的项目目录下
+git init 将目录初始化成为git仓库
+git add . 将项目添加在本地仓库
+git commit -m "" 提交到本地仓库
+git remote add origin url  将本地与远程仓库连接起来
+git push -u origin master 提交至远程仓库
+如果报错，拒绝提交，尝试在后面加 -f 强制提交
