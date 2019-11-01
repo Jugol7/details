@@ -1,6 +1,5 @@
 package com.details.export;
 
-import com.details.entity.Student;
 import com.details.utils.FilesUtil;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
@@ -42,6 +41,23 @@ public class ExportFiles {
 //        return "success";
     }
 
+    /**
+     * 这个导出只是测试，
+     * 如果是一个完整的流程，从页面-获取数据-导出等操作
+     * 再一个，将excel文件压缩，
+     * 那么需要注意的点：
+     * 1.需要设置response.addHeader("Content-Disposition", "attachment;filename="+new String(zipfile.getName().getBytes("UTF-8"),"ISO8859-1"));，保证文件中中文字符不丢失。
+     * 2.如果分不同浏览器
+     * 则还需要根据浏览器去设置编码
+     * 			String userAgent = request.getHeader("user-agent");
+     * 			if (userAgent != null && userAgent.contains("Firefox") || userAgent.contains("Chrome") || userAgent.contains("Safari")) {
+     * 				expName= new String((expName).getBytes(), "ISO8859-1");
+     *                        } else {
+     * 				//其他浏览器
+     * 				expName= URLEncoder.encode(expName,"UTF8");
+     *            }
+     * 3.这段代码放置的位置应该是excel文件形成之后，rar文件形成之前。
+     */
     private void exportServer() {
         //指定数据位置
         String path = "C:\\Users\\aisino\\Desktop\\订单列表_2019-10-31\\订单列表_2019-10-31_1.xls";
