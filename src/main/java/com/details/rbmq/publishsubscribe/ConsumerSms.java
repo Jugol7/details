@@ -1,5 +1,6 @@
-package com.details.rbmq.workqueues;
+package com.details.rbmq.publishsubscribe;
 
+import com.details.rbmq.workqueues.Producer;
 import com.rabbitmq.client.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -12,16 +13,17 @@ import java.util.concurrent.TimeoutException;
  * 消费者
  *
  * @author zlp
- * @date 2019-11-04 17:44
+ * @date 2019-11-04 14:44
  */
 @Slf4j
-public class ConsumerAnother {
+public class ConsumerSms {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsumerAnother.class);
+    private static Logger logger = LoggerFactory.getLogger(ConsumerSms.class);
 
-    private static final String QUEUE_FIRST = "first";
+    private static final String QUEUE_INFORM_SMS = "queue_inform_sms";
+    private static final String EXCHANGE_FANOUT_INFORM="exchange_fanout_inform";
 
-    public static void consumer() {
+    public static void main(String [] a) {
         Connection connection = null;
         Channel channel = null;
         logger.info("/-/-/-/-/-/-/-/-/-/-/-开始设置连接信息");
@@ -34,8 +36,10 @@ public class ConsumerAnother {
             //2.exchange channel
             channel = connection.createChannel();
             //3.声明队列
-            channel.queueDeclare(QUEUE_FIRST,true,false,false,null);
+            channel.queueDeclare(QUEUE_INFORM_SMS,true,false,false,null);
             channel.basicQos(1);
+            channel.exchangeDeclare(EXCHANGE_FANOUT_INFORM,BuiltinExchangeType.FANOUT);
+            channel.queueBind(QUEUE_INFORM_SMS,EXCHANGE_FANOUT_INFORM,QUEUE_INFORM_SMS);
             //4.声明消费者  重写handleDelivery()
             DefaultConsumer defaultConsumer = new DefaultConsumer(channel){
                 /**
@@ -56,7 +60,7 @@ public class ConsumerAnother {
                     long deliveryTag = envelope.getDeliveryTag();
                     //消息内容 body
                     String s = new String(body, "UTF-8");
-                    logger.info("/-/-/-/-consumerAnother/-/-/-/-/-/-/-消息详情为："+s);
+                    logger.info("/-/-/-/-/ConsumerSms-/-/-/-/-/-/-消息详情为："+s);
                 }
             };
             //3.消费
@@ -67,7 +71,7 @@ public class ConsumerAnother {
              * ) throws IOException
              */
             logger.info("/-/-/-/-/-/-/-/-/-/-/-开始消费消息");
-            channel.basicConsume(QUEUE_FIRST, true, defaultConsumer);
+            channel.basicConsume(QUEUE_INFORM_SMS, true, defaultConsumer);
             logger.info("/-/-/-/-/-/-/-/-/-/-/-消息消费结束");
         } catch (IOException e) {
             e.printStackTrace();

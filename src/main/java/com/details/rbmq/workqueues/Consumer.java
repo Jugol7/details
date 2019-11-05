@@ -21,7 +21,7 @@ public class Consumer {
 
     private static final String QUEUE_FIRST = "first";
 
-    public static void main(String[] args) {
+    public static void consumer() {
         Connection connection = null;
         Channel channel = null;
         logger.info("/-/-/-/-/-/-/-/-/-/-/-开始设置连接信息");
@@ -35,6 +35,7 @@ public class Consumer {
             channel = connection.createChannel();
             //3.声明队列
             channel.queueDeclare(QUEUE_FIRST,true,false,false,null);
+            channel.basicQos(1);
             //4.声明消费者  重写handleDelivery()
             DefaultConsumer defaultConsumer = new DefaultConsumer(channel){
                 /**
@@ -55,14 +56,14 @@ public class Consumer {
                     long deliveryTag = envelope.getDeliveryTag();
                     //消息内容 body
                     String s = new String(body, "UTF-8");
-                    logger.info("/-/-/-/-/Consumer-/-/-/-/-/-/-消息详情为："+s);
+                    logger.info("/-/-/-/-/ConsumerAnother-/-/-/-/-/-/-消息详情为："+s);
                 }
             };
             //3.消费
             /** channel.basicConsume(
              * String queue, 监控的队列
              * boolean autoAck, 是否自动回复
-             * Consumer callback 消费消息调用的方法
+             * ConsumerEmail callback 消费消息调用的方法
              * ) throws IOException
              */
             logger.info("/-/-/-/-/-/-/-/-/-/-/-开始消费消息");

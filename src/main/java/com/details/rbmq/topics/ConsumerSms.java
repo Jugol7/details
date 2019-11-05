@@ -1,5 +1,6 @@
-package com.details.rbmq.workqueues;
+package com.details.rbmq.topics;
 
+import com.details.rbmq.workqueues.Producer;
 import com.rabbitmq.client.*;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -12,16 +13,17 @@ import java.util.concurrent.TimeoutException;
  * 消费者
  *
  * @author zlp
- * @date 2019-11-04 17:44
+ * @date 2019-11-04 14:44
  */
 @Slf4j
-public class ConsumerAnother {
+public class ConsumerSms {
 
-    private static Logger logger = LoggerFactory.getLogger(ConsumerAnother.class);
+    private static Logger logger = LoggerFactory.getLogger(ConsumerSms.class);
 
-    private static final String QUEUE_FIRST = "first";
+    private static final String QUEUE_INFORM_TOPIC_SMS = "queue_inform_topic_sms";
+    private static final String EXCHANGE_TOPIC_INFORM="exchange_topic_inform";
 
-    public static void consumer() {
+    public static void main(String [] a) {
         Connection connection = null;
         Channel channel = null;
         logger.info("/-/-/-/-/-/-/-/-/-/-/-开始设置连接信息");
@@ -34,8 +36,11 @@ public class ConsumerAnother {
             //2.exchange channel
             channel = connection.createChannel();
             //3.声明队列
-            channel.queueDeclare(QUEUE_FIRST,true,false,false,null);
+            channel.queueDeclare(QUEUE_INFORM_TOPIC_SMS,true,false,false,null);
             channel.basicQos(1);
+            channel.exchangeDeclare(EXCHANGE_TOPIC_INFORM,BuiltinExchangeType.TOPIC);
+            //统配符  #：多个  *：一个
+            channel.queueBind(QUEUE_INFORM_TOPIC_SMS,EXCHANGE_TOPIC_INFORM,"inform.#.sms.#");
             //4.声明消费者  重写handleDelivery()
             DefaultConsumer defaultConsumer = new DefaultConsumer(channel){
                 /**
@@ -56,7 +61,12 @@ public class ConsumerAnother {
                     long deliveryTag = envelope.getDeliveryTag();
                     //消息内容 body
                     String s = new String(body, "UTF-8");
-                    logger.info("/-/-/-/-consumerAnother/-/-/-/-/-/-/-消息详情为："+s);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    logger.info("/-/-/-/-/TOPIC ConsumerSms-/-/-/-/-/-/-消息详情为："+s);
                 }
             };
             //3.消费
@@ -67,7 +77,7 @@ public class ConsumerAnother {
              * ) throws IOException
              */
             logger.info("/-/-/-/-/-/-/-/-/-/-/-开始消费消息");
-            channel.basicConsume(QUEUE_FIRST, true, defaultConsumer);
+            channel.basicConsume(QUEUE_INFORM_TOPIC_SMS, true, defaultConsumer);
             logger.info("/-/-/-/-/-/-/-/-/-/-/-消息消费结束");
         } catch (IOException e) {
             e.printStackTrace();
