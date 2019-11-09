@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设置IP等信息</title>
+</head>
+<body>
+    <pre>
+        NAT模式 V8
+        1.虚拟机方面
+            1.安装好Linux.
+            2.vi etc/sysconfig/metwork-scripts/ifcfg-e....
+                onboot=yes
+                bootproto=dhcp
+            3.在vmw中虚拟网络编辑器查看默认的ip网关等配置
+            4.service network restart
+        2.主机方面
+            1.无论是无线还是本地连接，找到属性中的共享，勾选允许共享，选择v8。
+            2.在网络连接中欧给的v8中设置指定ip为虚拟网络编辑器中的一样的。
+        3.此时
+            在主机中ping虚拟机，可通。
+            在虚拟机中ping主机，可通。
+            在虚拟机中ping www.baidu.com 可通。
+            这时代表成功了，可以用Linux上网了。
+    </pre>
+</body>
+</html>
