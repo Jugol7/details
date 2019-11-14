@@ -36,7 +36,6 @@
         </javaClientGenerator>
         <table tableName="表名" domainObjectName="类名" enableCountByExample="true" enableUpdateByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true" selectByExampleQueryId="true">
-
         </table>
     </context>
 </generatorConfiguration>
