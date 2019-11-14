@@ -199,7 +199,7 @@ public class NoSingleLinkedList<E> {
         myLinkedListRepeat.addEleLast(4);
         myLinkedListRepeat.addEleLast(3);
         myLinkedListRepeat.addEleLast(1);
-        deleteTheRepeat(myLinkedListRepeat);
+//        deleteTheRepeat(myLinkedListRepeat);
         logger.debug(myLinkedListRepeat.toString());
     }
 
