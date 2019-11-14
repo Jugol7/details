@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>@Resource And @Autowired</title>
+</head>
+<body>
+    <pre>
+        一：@Autowired
+            1.由spring提供，且只能按照byType注入Bean。
+
+        二：@Resource
+            1.由J2EE提供，可通过byName(默认),byType两种方式注入Bean。
+            2.有两个重要的属性设置：
+                1.name:spring会将name属性解析成bean的名称。
+                2.type:spring会将name属性解析成bean的类型。
+
+        三：区别与用法
+            1.场景，有一个service层，被多个类实现，在注入这个service层对象是，
+                1.@Resource:需要指定name或者type.
+                2.@Autowired:需要与@Qualifier搭配指定类型
+
+        此外：除了可以用在类上，还可以用在方法、属性上。
+
+    </pre>
+</body>
+</html>
