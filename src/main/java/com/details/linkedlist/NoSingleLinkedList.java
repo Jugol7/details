@@ -76,7 +76,6 @@ public class NoSingleLinkedList<E> {
 
     /**
      * 从头节点插入元素
-     *
      * @param e
      */
     public void addEleFirst(E e) {
