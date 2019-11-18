@@ -178,6 +178,7 @@ public class NoSingleLinkedList<E> {
 
     /**
      * 删除链表中的重复的元素
+     *
      * @param noSingleLinkedList
      * @return
      */
@@ -199,6 +200,8 @@ public class NoSingleLinkedList<E> {
                     } else {
                         pre = null;
                     }
+//                    nodeInside.next = null;
+//                    nodeInside.pre = null;
                     size--;
                     modCount++;
                 }
