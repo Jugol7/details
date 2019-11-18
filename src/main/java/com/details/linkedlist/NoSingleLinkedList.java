@@ -76,6 +76,7 @@ public class NoSingleLinkedList<E> {
 
     /**
      * 从头节点插入元素
+     *
      * @param e
      */
     public void addEleFirst(E e) {
@@ -175,31 +176,37 @@ public class NoSingleLinkedList<E> {
         return false;
     }
 
+    /**
+     * 删除链表中的重复的元素
+     * @param noSingleLinkedList
+     * @return
+     */
     public NoSingleLinkedList<E> deleteTheRepeat(NoSingleLinkedList<E> noSingleLinkedList) {
-        NoSingleLinkedList<E> result = new NoSingleLinkedList<>();
-        Node<E> node = getFirst();
+        Node<E> nodeOutside = getFirst();
         for (int i = 0; i < noSingleLinkedList.size - 1; i++) {
+            Node<E> nodeInside = nodeOutside.next;
             for (int j = i + 1; j < noSingleLinkedList.size; j++) {
-                if (node.element.equals(node.next.element)) {
-                    node.next.next.pre = node;
-                    node.next = node.next.next;
+                //判断是否是最后一个
+                Node<E> next = null;
+                if (i != noSingleLinkedList.size) {
+                    next = nodeInside.next;
                 }
+                Node<E> pre = nodeInside.pre;
+                if (nodeOutside.element.equals(nodeInside.element)) {
+                    if (next != null) {
+                        next.pre = pre;
+                        pre = next;
+                    } else {
+                        pre = null;
+                    }
+//                    size--;
+//                    modCount++;
+                }
+                nodeInside = nodeInside.next;
             }
+            nodeOutside = nodeOutside.next;
         }
-        return result;
-    }
-
-    public void deleteRepeatData() {
-        NoSingleLinkedList<Integer> myLinkedListRepeat = new NoSingleLinkedList<>();
-        logger.info("/-/-/-//-/-/-/-/-初始化数据");
-        myLinkedListRepeat.addEleLast(1);
-        myLinkedListRepeat.addEleLast(2);
-        myLinkedListRepeat.addEleLast(3);
-        myLinkedListRepeat.addEleLast(4);
-        myLinkedListRepeat.addEleLast(3);
-        myLinkedListRepeat.addEleLast(1);
-//        deleteTheRepeat(myLinkedListRepeat);
-        logger.debug(myLinkedListRepeat.toString());
+        return noSingleLinkedList;
     }
 
     public static void myLinkedList() {
@@ -216,12 +223,6 @@ public class NoSingleLinkedList<E> {
         logger.debug(myLinkedList.toString());
         myLinkedList.deleteEle(3);
         logger.debug(myLinkedList.toString());
-    }
-
-
-    public static void main(String[] args) {
-//        myLinkedList();
-//        javaLinkedList();
     }
 
     /**
