@@ -199,8 +199,8 @@ public class NoSingleLinkedList<E> {
                     } else {
                         pre = null;
                     }
-//                    size--;
-//                    modCount++;
+                    size--;
+                    modCount++;
                 }
                 nodeInside = nodeInside.next;
             }
