@@ -37,6 +37,10 @@ public class NoSingleLinkedList<E> {
 
     private int size = 0;
 
+    public int getSize(){
+        return size;
+    }
+
     private int modCount = 0;
 
     public NoSingleLinkedList() {
@@ -154,14 +158,16 @@ public class NoSingleLinkedList<E> {
     public boolean deleteEle(E e) {
         for (int i = 0; i < size; i++) {
             Node<E> node = getNode(i);
-            if (e.equals(node.element)) {
+            if (e.equals(node)) {
                 //判断删除元素的位置
                 if (null == node.pre) {
                     //位置为头元素
                     node.next.pre = null;
+                    first = node.next;
                 } else if (null == node.next) {
                     //位置为尾元素
                     node.pre.next = null;
+                    last = node.pre;
                 } else {
                     //位置在中间
                     //将此对象的pre的next指向此对象的next
@@ -169,7 +175,7 @@ public class NoSingleLinkedList<E> {
                     node.next.pre = node.pre;
                 }
                 size--;
-                modCount--;
+                modCount++;
                 return true;
             }
         }
