@@ -8,9 +8,11 @@ import lombok.Setter;
 import java.util.HashMap;
 
 /**
- * 操作本地缓存
- * 使用一个map来存储一些数据
- *
+ * 内部缓存：
+ *  操作本地缓存
+ *  使用一个map来存储一些数据
+ * 外部缓存：
+ *  redis/memcached
  * @author zlp
  * @date 2019-11-19 11:45
  */
