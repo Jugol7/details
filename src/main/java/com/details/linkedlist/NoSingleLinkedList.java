@@ -201,6 +201,7 @@ public class NoSingleLinkedList<E> {
                 Node<E> pre = nodeInside.pre;
                 if (nodeOutside.element.equals(nodeInside.element)) {
                     if (next != null) {
+                        //链表中没有指向此元素的值，就表示链表中不存在此元素
                         next.pre = pre;
                         pre = next;
                     } else {
