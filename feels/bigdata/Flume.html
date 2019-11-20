@@ -76,8 +76,8 @@
             7.vi /etc/profile.d/flume.sh
                 #!bash/sh
                 #flume home
-                FLUME_HOME=/usr/local/flume
-                PATH=$PATH:$FLUME_HOME/bin
+                export FLUME_HOME=/usr/local/flume/apache-flume-1.8.0-bin
+                export PATH=$PATH:$FLUME_HOME/bin
             8.source /etc/profile  生效文件
             配置java环境
             9.cp flume-env.sh.template flume-env.sh 复制文件备份(猜的，可选)
@@ -85,6 +85,13 @@
                 export JAVA_HOME=/usr/lib/jvm/jdk-13.0.1
             11.source /etc/profile
 
+            12. flume-ng version 是否安装成功
+            13.demo
+                1.编写.conf文件 内容参考6.Flume实例
+                2.启动flume实例
+                    命令：flume-ng agent -n a1 -c ../conf -f ../conf/testflume.conf -Dflume.root.logger=INFO,console
+                    -c：后面接的是log所在的文件夹， -f：后面接的是配置文件，其中包含，source、sink、channel等
+                3.在另一个终端，使用telnet ip port ，输入数据，就会在启动flume实例的终端看到输出。
     </pre>
 </body>
 </html>
