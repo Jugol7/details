@@ -65,6 +65,26 @@
                 7.启动服务端
                 $ flume-ng agent -n al -c ../conf -f ../conf/neteat.conf \
                 -Dflume.root.logger=DEBUG,console
+
+        Linux下安装flume
+            1.环境，centos7
+            2.安装jdk 参考linux/installjdk.html
+            3.yum -y install wget 安装wget命令
+            4.wget 镜像地址
+            5.可移动文件到指定统一安装文件下
+            6.tar -zxvf flume压缩包名
+            7.vi /etc/profile.d/flume.sh
+                #!bash/sh
+                #flume home
+                FLUME_HOME=/usr/local/flume
+                PATH=$PATH:$FLUME_HOME/bin
+            8.source /etc/profile  生效文件
+            配置java环境
+            9.cp flume-env.sh.template flume-env.sh 复制文件备份(猜的，可选)
+            10.vi flume-env.sh
+                export JAVA_HOME=/usr/lib/jvm/jdk-13.0.1
+            11.source /etc/profile
+
     </pre>
 </body>
 </html>
