@@ -202,6 +202,7 @@ public class NoSingleLinkedList<E> {
                 if (nodeOutside.element.equals(nodeInside.element)) {
                     if (next != null) {
                         next.pre = pre;
+
                         pre = next;
                     } else {
                         pre = null;
