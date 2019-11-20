@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Flume</title>
+</head>
+<body>
+    <pre>
+        Flume
+            1.基本概念：
+                Flume 是一个高可用的、高可靠的、分布式的海量日志采集、聚合和传输系统。Flume 支持在日志系统中定制各类数据发送方，用于收集数据，同时，
+                Flume 提供对数据进行简单处理，并写到各种数据接收方（如文本、HDFS、HBase 等）。Flume 的核心是把数据从数据源（Source）收集过来，再将收集到的数据送到指定的目的地（Smk）。
+                为了保证输送的过程一定成功，在送到目的地之前，会先缓存数据到管道（Channel）,待数据真正到达目的地后，Flume 再删除缓存的数据
+            2。使用方法;
+                1.编写配置文件，在文件中设置sources、sinks、channels，接着运行Agent实例，这样就开始采集数据了。
+                    1.sources：指定接收的来源，接收http、文件...
+                    2.sinks：指定输出的位置，输出到HBase、HDFS...
+                    3.channels：指定格式，内存、数据库、文件...
+                2.示例
+                    #Describe/configure the source
+                    al.sources.r1.type = netcat
+                    al.sources.r1.bind = localhost
+                    al.sources.r1.port = 44444
+                    #Describe the sink
+                    a1.sinks.k1.type = logger
+                    #Use a channel which buffers events in memory.
+                    a1.channels.c1.type = memory
+                    a1.channels.c1.capacity = 1000
+                    a1.channels.c1.transactioncapacity = 100
+                3.通过Channel将Source与Sink连接起来
+                    #Bind the source and sink to the channel
+                    a1.sources.r1.channels = c1
+                    a1.sinks.k1.channel = c1
+                4.启动 Agent 的 shell 操作。
+                    flume-ng agent -n a1 -c ../conf -f ../conf/example.file\
+                    -Dflume.root.logger = DEBUG,console
+                5.参数说明如下。
+                    “-n”指定 Agent 的名称(与配置文件中代理的名字相同)。
+                    “-c"指定 Flume 中配置文件的目录。
+                    “-f”指定配置文件。
+                    “-Dflume.root.logger = DEBUG,console”设置日志等级。
+                6.Flume实例
+                    NetCatSource应用可监听一个指定的端口，只要应用程序向这个端口写数据，这个Source组件就可以获取到信息。其中,Sink 使用 logger 类型,Channel 使用内存（Memory）格式。
+                    # Name the components on this agent
+                    a1.sources = r1
+                    a1.sinks = k1
+                    a1.channels = c1
+
+                    # Describe/configure the source
+                    a1.sources.r1.type = netcat
+                    a1.sources.r1.bind = 192.168.80.80
+                    a1.sources.r1.port = 44444
+
+                    # Describe the sink
+                    a1.sinks.k1.type = logger
+
+                    # Use a channel which buffers events in memory
+                    a1.channels.c1.type = memory
+                    a1.channels.c1.capacity = 1000
+                    a1.channels.c1.transactionCapacity = 100
+                    # Bind the source and sink to the channel
+                    a1.sources.r1.channels = c1
+                    a1.sinks.k1.channel = c1
+                说明：a1：Agent，sources(r1)监听端口44444，Channel声明为memory内存，Sink(k1)输出在控制台
+                7.启动服务端
+                $ flume-ng agent -n al -c ../conf -f ../conf/neteat.conf \
+                -Dflume.root.logger=DEBUG,console
+    </pre>
+</body>
+</html>
