@@ -36,7 +36,7 @@ public class LengthOfLongestSubstring {
     }
 
     /**
-     * 最长子串
+     * 最长子串,最初版
      * @param list
      * @param source
      * @return
