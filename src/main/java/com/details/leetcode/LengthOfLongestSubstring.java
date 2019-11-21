@@ -35,6 +35,12 @@ public class LengthOfLongestSubstring {
         System.out.println(substring);
     }
 
+    /**
+     * 最长子串
+     * @param list
+     * @param source
+     * @return
+     */
     static ArrayList<Integer> lengthOfLongestSubstring(ArrayList<Integer> list, String source) {
         int length = source.length();
         for (int j = 0; j < length - 1; j++) {
