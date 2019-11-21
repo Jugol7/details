@@ -1,6 +1,9 @@
 package com.details.leetcode;
 
 import com.details.linkedlist.NoSingleLinkedList;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
@@ -14,7 +17,10 @@ import com.details.linkedlist.NoSingleLinkedList;
  * @author zlp
  * @date 19:09  2019/11/20
  */
+@Slf4j
 public class AddTwoNumbers {
+
+    private static final Logger logger = LoggerFactory.getLogger(AddTwoNumbers.class);
 
     public static void main(String[] args) {
         addTwoNumbers();
@@ -26,7 +32,7 @@ public class AddTwoNumbers {
         noSingleLinkedList1.addEleLast(4);
         noSingleLinkedList1.addEleLast(3);
         NoSingleLinkedList<Integer> noSingleLinkedList2 = new NoSingleLinkedList<>();
-        noSingleLinkedList2.addEleLast(5);
+        noSingleLinkedList2.addEleLast(8);
         noSingleLinkedList2.addEleLast(6);
         noSingleLinkedList2.addEleLast(4);
         NoSingleLinkedList<Integer> result = new NoSingleLinkedList<>();
@@ -56,12 +62,16 @@ public class AddTwoNumbers {
      */
     public static int[] delLinked(int[] arr) {
         for (int i = 0; i < arr.length; i++) {
+            logger.debug("--------第"+(i+1)+"个---------------"+arr[i]);
             if (arr[i] > 9) {
                 String s = String.valueOf(arr[i]);
-                arr[i] = s.charAt(s.length() - 1);
+                arr[i] = Integer.valueOf(s) % 10;
                 if (i > 0) {
                     arr[i - 1] = arr[i - 1] + 1;
-                    delLinked(arr);
+                    if (arr[i - 1] > 9) {
+                        arr[i - 1] = arr[i - 1] + 1;
+                        delLinked(arr);
+                    }
                 }
             }
         }
