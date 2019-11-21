@@ -1,5 +1,7 @@
 package com.details.linkedlist;
 
+import lombok.Data;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -271,7 +273,7 @@ public class NoSingleLinkedList<E> {
      *
      * @param <E>
      */
-    private class Node<E> {
+    private static class Node<E> {
         E element;
         Node<E> pre;
         Node<E> next;

@@ -47,15 +47,20 @@
                     a1.channels = c1
 
                     # Describe/configure the source
-                    a1.sources.r1.type = netcat
+                    a1.sources.r1.type = netcat  (avro/spooldir(动态读取一个文件)/exec(动态读取一个文件)/http...)
+                   1.netcat: a1.sources.r1.bind = 192.168.80.80
                     a1.sources.r1.bind = 192.168.80.80
+                   2.exec a1.sources.s1.command = tail -F /opt/cdh-5.3.6/hive-0.13.1-cdh5.3.6/logs/hive.log
+                    a1.sources.s1.shell = /bin/sh -c
+                   3.spooldir a1.sources.s1.spoolDir = /opt/datas/flume-ch/spdir
+
                     a1.sources.r1.port = 44444
 
                     # Describe the sink
-                    a1.sinks.k1.type = logger
+                    a1.sinks.k1.type = logger  (hdfs...)
 
                     # Use a channel which buffers events in memory
-                    a1.channels.c1.type = memory
+                    a1.channels.c1.type = memory  (file...)
                     a1.channels.c1.capacity = 1000
                     a1.channels.c1.transactionCapacity = 100
                     # Bind the source and sink to the channel
