@@ -19,6 +19,7 @@ public class LengthOfLongestSubstring {
         ArrayList<Integer> arrayList = new ArrayList<>();
         ArrayList<Integer> list = lengthOfLongestSubstring(arrayList, s);
         HashMap<String, Integer> hashMap = new HashMap<>();
+//        HashSet<Integer> set = new HashSet<Integer>((Collection<? extends Integer>) hashMap);
         int max = 0;
         for (int j = 0; j < list.size(); j++) {
             Integer end = list.get(j + 1);
