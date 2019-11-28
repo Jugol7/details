@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
  * 栓除给定链表的倒数第N元素
  * 思路，将head备份返回
  * 用两个节点去遍历一次，总是使得两节点相隔N个节点。
- *
  * @author zlp
  * @date 18:04  2019/11/27
  */
@@ -41,9 +40,14 @@ public class RemoveNthFromEnd {
         int i = 0;
         while (flag) {
             //如果存在下一个节点，那就遍历  && i >= n
-            if (node1.next == null) {
-                node2.next = node2.next.next;
+            if (null == node1.next) {
+                if (node2.next != null) {
+                    node2.next = node2.next.next;
+                } else {
+                    node2 = null;
+                }
                 flag = false;
+//                return head;
             }
             node1 = node1.next;
             //当第一个节点遍历了index次之后，将第二个节点开始遍历，保证两节点之间相隔index个值
