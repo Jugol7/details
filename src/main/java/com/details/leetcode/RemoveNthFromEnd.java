@@ -4,8 +4,9 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * 栓除给定链表的倒数第N元素
- *  思路，将head备份返回
- *  用两个节点去遍历一次，总是使得两节点相隔N个节点。
+ * 思路，将head备份返回
+ * 用两个节点去遍历一次，总是使得两节点相隔N个节点。
+ *
  * @author zlp
  * @date 18:04  2019/11/27
  */
@@ -21,14 +22,14 @@ public class RemoveNthFromEnd {
             first.next = new ListNode(i);
             first = first.next;
         }
-        while(firstBak != null){
-            log.debug("------------"+firstBak.val);
+        while (firstBak != null) {
+            log.debug("------------" + firstBak.val);
             firstBak = firstBak.next;
         }
         removeNthFromEnd(firstParam, 2);
         log.debug("------after remove------");
-        while(firstParam != null){
-            log.debug("------------"+firstParam.val);
+        while (firstParam != null) {
+            log.debug("------------" + firstParam.val);
             firstParam = firstParam.next;
         }
     }
@@ -39,7 +40,7 @@ public class RemoveNthFromEnd {
         ListNode node2 = head;
         int i = 0;
         while (flag) {
-            //如果存在下一个节点，那就遍历
+            //如果存在下一个节点，那就遍历  && i >= n
             if (node1.next == null) {
                 node2.next = node2.next.next;
                 flag = false;
