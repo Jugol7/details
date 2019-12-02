@@ -2,7 +2,8 @@ package com.details.leetcode;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 将一个给定字符串根据给定的行数，以从上往下、从左到右进行 Z 字形排列。
@@ -18,7 +19,7 @@ import java.util.Arrays;
  * 输出: "LDREOEIIECIHNTSG"
  *
  * @author zlp
- * @date 11:23  2019/11/29
+ * @date 11:23  2019/11/29x
  */
 @Slf4j
 public class Convert {
@@ -29,20 +30,56 @@ public class Convert {
         log.debug("----------------end-------------------" + leetcodeishiring);
     }
 
+    /**
+     * six
+     * @param s
+     * @param numRows
+     * @return
+     */
+    public static String convertByLeetcode(String s, int numRows) {
+        if (numRows == 1) return s;
+        List<StringBuilder> rows = new ArrayList<>();
+        for (int i = 0; i < Math.min(numRows, s.length()); i++)
+            rows.add(new StringBuilder());
+        int curRow = 0;
+        boolean goingDown = false;
+        for (char c : s.toCharArray()) {
+            rows.get(curRow).append(c);
+            if (curRow == 0 || curRow == numRows - 1)
+                goingDown = !goingDown;
+            curRow += goingDown ? 1 : -1;
+        }
+        StringBuilder ret = new StringBuilder();
+        for (StringBuilder row : rows)
+            ret.append(row);
+        return ret.toString();
+    }
+
     public static String convertLeetCode(String s, int numRows) {
         //列数
         if (s.length() <= numRows) {
             return s;
         }
         StringBuffer stringBuffer = new StringBuffer();
-        int cloumn = s.length() / (2 * numRows - 2);
         int index = 0;
+        String s1 = s;
         for (int i = 0; i < numRows; i++) {
-            for (int j = 0; j < cloumn; j++) {
-                if ((numRows > j ? numRows % (j + 1) == 0 : (j + 1) % numRows == 0) || ((i == 0 || j == 0) && i + j == numRows - 1)) {
-                    stringBuffer.append(s.charAt(index++));
+            for (int j = 0; j < 8; j++) {
+                log.debug("第i：" + i + "j：" + j + "次循环");
+                if (j == 0 || j + 1 % numRows == 0) {
+                    stringBuffer.append(s.charAt(j * (2 * numRows - 2)));
+                    s1.substring(++index);
+                    if (s1 == null) {
+                        return stringBuffer.toString();
+                    }
                 } else {
-                    stringBuffer.append("+");
+                    if (i + j > numRows ? i + j % numRows - 1 == 0 : i + j == numRows) {
+                        stringBuffer.append(s.charAt(numRows + (j / numRows + 1)));
+                        s1.substring(++index);
+                        if (s1 == null) {
+                            return stringBuffer.toString();
+                        }
+                    }
                 }
             }
         }
@@ -52,7 +89,7 @@ public class Convert {
     /**
      * 分析：
      * 1.rowNums代表几行，那么第一行每两个字符之间的空格就是rowNums-2，递减1，到1时就重复一次递增1
-     * 2.二维数组
+     * 2.二维数组，太麻烦
      *
      * @param str
      * @param rowNum
