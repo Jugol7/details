@@ -1,2 +1,6 @@
  server:
   port: 8008
+
+# logging:
+#   config: classpath:logback-local.xml
+#   config: classpath:logback-${spring.profiles.active}.xml
