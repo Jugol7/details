@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新建用户 并授予sudo权限</title>
+</head>
+<body>
+<pre>
+    1.adduser username
+    2.passwd password
+    3.修改文件权限
+        ls -l /etc/sudoers 查看文件权限
+        chmod -v u+w /etc/sudoers 修改文件权限为可编辑
+    3.vim /etc/sudoers
+            已有  root ALL=(ALL)  ALL
+            加一  name ALL=(ALL)  ALL
+    4.将文件权限改回
+        ls -l /etc/sudoers 查看文件权限
+        chmod -v u-w /etc/sudoers 修改文件权限为只读
+</pre>
+</body>
+</html>
