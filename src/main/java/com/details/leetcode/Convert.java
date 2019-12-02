@@ -25,9 +25,28 @@ public class Convert {
 
     public static void main(String[] args) {
         log.debug("----------------start-------------------");
-        char[][] qwertyus = convert("qwertyu", 3);
-        log.debug("----------------end-------------------");
-        System.out.println(Arrays.toString(qwertyus));
+        String leetcodeishiring = convertLeetCode("LEETCODEISHIRING", 3);
+        log.debug("----------------end-------------------" + leetcodeishiring);
+    }
+
+    public static String convertLeetCode(String s, int numRows) {
+        //列数
+        if (s.length() <= numRows) {
+            return s;
+        }
+        StringBuffer stringBuffer = new StringBuffer();
+        int cloumn = s.length() / (2 * numRows - 2);
+        int index = 0;
+        for (int i = 0; i < numRows; i++) {
+            for (int j = 0; j < cloumn; j++) {
+                if ((numRows > j ? numRows % (j + 1) == 0 : (j + 1) % numRows == 0) || ((i == 0 || j == 0) && i + j == numRows - 1)) {
+                    stringBuffer.append(s.charAt(index++));
+                } else {
+                    stringBuffer.append("+");
+                }
+            }
+        }
+        return stringBuffer.toString();
     }
 
     /**
