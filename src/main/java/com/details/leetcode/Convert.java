@@ -26,6 +26,7 @@ import java.util.List;
 public class Convert {
 
     public static void main(String[] args) {
+        System.out.println("Linux FU");
         log.debug("----------------start-------------------");
         String leetcodeishiring = convertLeetCode("LEETCODEISHIRING", 3);
         log.debug("----------------end-------------------" + leetcodeishiring);
