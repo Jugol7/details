@@ -7,6 +7,27 @@
 <body>
     <pre>
         https://hadoop.apache.org/docs/stable/hadoop-project-dist/hadoop-common
+
+        在启动hadoop时，出现一直提示输入密码
+        则 ssh免密码登陆(本步骤可以省略，但是后面你重启hadoop进程时是需要手工输入密码才行)
+		ssh-keygen -t rsa
+		cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
+
+        1:查看防火状态
+            systemctl status firewalld
+            service  iptables status
+            2:暂时关闭防火墙
+            systemctl stop firewalld
+            service  iptables stop
+            3:永久关闭防火墙
+            systemctl disable firewalld
+            chkconfig iptables off
+            4:重启防火墙
+            systemctl enable firewalld
+            service iptables restart  
+            5:永久关闭后重启
+            //暂时还没有试过
+            chkconfig iptables on　
     </pre>
 </body>
 </html>
