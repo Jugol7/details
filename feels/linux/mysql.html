@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mysql安装</title>
+</head>
+<body>
+    <pre>
+        安装 mysql
+        1： wget -i -c http://dev.mysql.com/get/mysql57-community-release-el7-10.noarch.rpm
+        2. yum -y install mysql57-community-release-el7-10.noarch.rpm
+        3. yum -y install mysql-community-server
+        4. systemctl start  mysqld.service
+        5. systemctl status  mysqld.service
+        6. grep "password" /var/log/mysqld.log
+            查看初始密码
+        7. mysql -u  -p
+        8.  set global validate_password_policy=0;
+            set global validate_password_length=1;
+            设置这两条才能设置自定长度与格式的之后，才能设置新密码。
+        ALTER USER 'root'@'localhost' IDENTIFIED BY 'new password';
+        9. exit
+
+    </pre>
+</body>
+</html>
