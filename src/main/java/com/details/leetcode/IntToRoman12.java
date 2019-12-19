@@ -1,9 +1,5 @@
 package com.details.leetcode;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 /**
  * 12
  * 罗马数字包含以下七种字符： I， V， X， L，C，D 和 M。
@@ -63,6 +59,12 @@ public class IntToRoman12 {
         System.out.println(s);
     }
 
+    /**
+     * 不必如此复杂的
+     *  可以使用  符号  - 来改变num的值。
+     * @param num
+     * @return
+     */
     private static String intToRoman(int num) {
         StringBuilder result = new StringBuilder();
         if (num < 1 || num > 3999) {
