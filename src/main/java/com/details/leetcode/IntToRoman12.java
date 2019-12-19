@@ -1,5 +1,9 @@
 package com.details.leetcode;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * 12
  * 罗马数字包含以下七种字符： I， V， X， L，C，D 和 M。
@@ -51,11 +55,11 @@ package com.details.leetcode;
  */
 public class IntToRoman12 {
 
-    private static final int[] ROMAN_NUM = {1, 5, 10, 50, 100, 500, 1000};
-    private static final String[] ROMAN_STR = {"I", "V", "X", "L", "C", "D", "M"};
+    private static final int[] ROMAN_NUM = {1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000};
+    private static final String[] ROMAN_STR = {"I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M"};
 
     public static void main(String[] args) {
-        String s = intToRoman(1994);
+        String s = intToRoman(1000);
         System.out.println(s);
     }
 
@@ -65,21 +69,24 @@ public class IntToRoman12 {
             return null;
         }
         int len = ROMAN_NUM.length;
-        while (num > 1) {
+        while (num > 0) {
             for (int i = 1; i < len; i++) {
-                if(num > ROMAN_NUM[ROMAN_NUM.length - 1]){
+                if (num > ROMAN_NUM[ROMAN_NUM.length - 1]) {
                     int count = num / ROMAN_NUM[ROMAN_NUM.length - 1];
                     num = num % ROMAN_NUM[ROMAN_NUM.length - 1];
                     for (int j = 0; j < count; j++) {
                         result.append(ROMAN_STR[ROMAN_NUM.length - 1]);
                     }
-                }
-                if (num < ROMAN_NUM[i]) {
+                } else if (num < ROMAN_NUM[i]) {
                     int count = num / ROMAN_NUM[i - 1];
                     num = num % ROMAN_NUM[i - 1];
                     for (int j = 0; j < count; j++) {
                         result.append(ROMAN_STR[i - 1]);
                     }
+                    len = i;
+                }else if(num == ROMAN_NUM[i]){
+                    num = num % ROMAN_NUM[i];
+                    result.append(ROMAN_STR[i]);
                     len = i;
                 }
             }
