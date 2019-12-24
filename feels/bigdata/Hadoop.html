@@ -13,6 +13,8 @@
 		ssh-keygen -t rsa
 		cp ~/.ssh/id_rsa.pub ~/.ssh/authorized_keys
 
+        将.ssh设置目录文件权限700，其下文件600。或者相关可行的文件权限。
+
         启动hadoop之后，没有datanode节点，可能是由于clusterId不一样
         将tmp.dir中所对应的路径上的data与name文件下的VERSION中的clusterId改成一样的(改成能启动的nodeclusterId)
 
