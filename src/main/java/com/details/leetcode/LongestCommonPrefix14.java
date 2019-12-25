@@ -4,10 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.util.*;
-
 /**
  * 14
  * 编写一个函数来查找字符串数组中的最长公共前缀。
@@ -31,37 +27,89 @@ import java.util.*;
 @Slf4j
 public class LongestCommonPrefix14 {
 
-    private static final Logger logger = LoggerFactory.getLogger(LongestCommonPrefix14.class);
-
     public static void main(String[] args) {
-//        String[] strs = {"flower","flow","flight"};
+
+//        String[] strs = {"flower", "flow", "floight"};
 //        System.out.println(longestCommonPrefix(strs));
+        String[] s = {"a"};
+        String s1 = longestCommonPrefixLeet(s);
+        System.out.println(s1);
+
+    }
+
+
+    public static String longestCommonPrefixLeet(String[] strs) {
+        if (strs == null || strs.length == 0)
+            return "";
+        int minLen = Integer.MAX_VALUE;
+        for (String str : strs)
+            minLen = Math.min(minLen, str.length());
+        int low = 1;
+        int high = minLen;
+        while (low <= high) {
+            int middle = (low + high) / 2;
+            if (isCommonPrefix(strs, middle))
+                low = middle + 1;
+            else
+                high = middle - 1;
+        }
+        return strs[0].substring(0, (low + high) / 2);
+    }
+
+    private static boolean isCommonPrefix(String[] strs, int len){
+        String str1 = strs[0].substring(0,len);
+        for (int i = 1; i < strs.length; i++)
+            if (!strs[i].startsWith(str1))
+                return false;
+        return true;
+    }
+
+    public static String longestCommonPrefix2(String[] strs) {
+        int end = Integer.MAX_VALUE;
+        for (String str : strs) {
+            end = Math.min(end, str.length());
+        }
+        int start = 1;
+        int mid = 0;
+        while (start <= end) {
+            mid = (start + end) / 2;
+            String str0 = strs[0].substring(0, end);
+            for (int i = 1; i < strs.length; i++) {
+//                if (str0.charAt(mid) != strs[i].charAt(mid)) {
+                if (!strs[i].startsWith(str0)) {
+                    end = mid - 1;
+                    break;
+                }
+                start = mid + 1;
+            }
+        }
+        return strs[0].substring(0, mid);
     }
 
     public static String longestCommonPrefix(String[] strs) {
-
-        String regex = "^[a-zA-Z]+$";
         int end = Integer.MAX_VALUE;
         for (String str : strs) {
-//            if (!regex.matches(str)) {
-//                return "所输入的必须是字母";
-//            }
             end = Math.min(end, str.length());
         }
-        System.out.println(end);
         int start = 0;
-        while (start < end) {
-            int mid = 0;
-            String str0 = strs[0].substring(0, end);
-            for (int i = 1; i < strs.length; i++) {
-                mid = start + end / 2;
-                if (str0.charAt(mid) != strs[i].charAt(mid)) {
-                    end = mid + 1;
-                    continue;
-                }
-                start = mid - 1;
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            if(!isCommonPrefix(strs,mid)){
+                end = mid - 1;
+            }else {
+                start = mid + 1;
             }
         }
-        return strs[0].substring(0,end);
+        return strs[0].substring(0, end);
+    }
+
+    private static boolean isSame(String[] strings, int mid){
+        String str0 = strings[0].substring(0, mid+1);
+        for (int i = 1; i < strings.length; i++) {
+            if (str0.charAt(mid) != strings[i].charAt(mid)) {
+                return false;
+            }
+        }
+        return true;
     }
 }
