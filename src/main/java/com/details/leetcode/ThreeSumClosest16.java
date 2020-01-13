@@ -1,7 +1,5 @@
 package com.details.leetcode;
 
-import com.details.entity.user;
-
 import java.util.Arrays;
 
 /**
@@ -21,25 +19,29 @@ public class ThreeSumClosest16 {
 
     public static void main(String[] args) {
 
-        int[] nums = {-1,2,1,-4};
-        int[] nums1 = {0,2,1,-3};
-        int target = 1;
-        System.out.println(threeSumClosest(nums1, target));
+        int[] nums = {1,1,-1,-1,3};
+        int target = -1;
+        System.out.println(threeSumClosest(nums, target));
     }
 
     public static int threeSumClosest(int[] nums, int target) {
-        int result = 0;
-        int min = Integer.MAX_VALUE;
         Arrays.sort(nums);
-        for (int i = 0; i < nums.length-2;i++) {
-            int bakResult = nums[i] + nums[i + 1] + nums[i + 2];
-            int tmp = Math.abs(target - bakResult);
-            if(tmp == 0){
-                return bakResult;
-            }
-            if(min > tmp){
-                result = bakResult;
-                min = tmp;
+        int result = nums[0]+nums[1]+nums[2];
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length;i++) {
+            int s = i+1;
+            int e = nums.length-1;
+            while(s < e){
+                //当前结果与target比较
+                int temp = nums[i]+nums[s]+nums[e];
+                if(Math.abs(temp-target) < Math.abs(result - target)){
+                    result = temp;
+                }
+                if(result > target){
+                    e--;
+                }else {
+                    s++;
+                }
             }
         }
         return result;
