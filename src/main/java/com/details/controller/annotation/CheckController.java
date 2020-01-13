@@ -1,5 +1,6 @@
 package com.details.controller.annotation;
 
+import com.details.annotation.Check;
 import com.details.entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -26,5 +27,11 @@ public class CheckController {
         return student;
     }
 
+    @PostMapping("/checkName")
+    @Check({"name","age"})
+    public String checkName(String name, Integer age){
+        logger.info("请求参数：1."+name+age);
+        return name;
+    }
 
 }

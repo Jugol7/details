@@ -1,4 +1,5 @@
 package com.details.annotation.aspect;
+
 import com.details.annotation.Check;
 import com.details.utils.ReflectionUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -26,7 +27,7 @@ public class CheckParamAspect {
     private static final Logger LOG = LoggerFactory.getLogger(CheckParamAspect.class);
 
     // 这里要换成自定义注解的路径
-    @Around(value = "@com.details.annotation.Check.")
+    @Around(value = "@com.details.annotation.Check")
     public Object check(ProceedingJoinPoint point) throws Throwable {
         Object obj;
         // 参数校验
