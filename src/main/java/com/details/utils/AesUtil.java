@@ -25,10 +25,17 @@ public class AesUtil {
     private static final String AES_GCM_NOPADDING = "AES/GCM/NoPadding";
     private static final String UTF_8 = "UTF-8";
 
+    public static void main(String[] args) {
+        String name = "zlp";
+        Object encryptAES = encryptAES(name, "1234567890abcdef", 1);
+        System.out.println(encryptAES);
+    }
     /**
      * AES加密
      *     type   1为utf-8 ，2为gbk
      * @param sSrc 待加密字符串
+     * @param password 16位key
+     * @param type 加密类型
      * @return
      * @throws Exception
      */
