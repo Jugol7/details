@@ -53,11 +53,11 @@ public class FilesUtil {
             try {
                 throw new FileUploadException(msg);
             } catch (FileUploadException e) {
-                e.printStackTrace();
+                log.error("文件上传异常"+e);
             }
         }
         String fileName = file.getOriginalFilename();
-        String suffixName = fileName.substring(fileName.indexOf(".") + 1);
+        String suffixName = fileName.substring(fileName.indexOf('.') + 1);
         //Unix 时间戳
         long l = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
         String realName = UUID.randomUUID().toString();
@@ -67,7 +67,6 @@ public class FilesUtil {
             file.transferTo(f);
             return filePath + File.separator + realName;
         } catch (IOException e) {
-            e.printStackTrace();
             log.debug("文件操作异常");
         }
         return "";
@@ -80,12 +79,11 @@ public class FilesUtil {
      * @return
      */
     public static String checkFileImage(MultipartFile file) {
-        boolean flag = false;
         String msg = "";
         String[] suffixStr = {"gif", "jpg", "png", "jpeg"};
         if (file != null) {
             String originalFilename = file.getOriginalFilename();
-            String suffixName = originalFilename.substring(originalFilename.indexOf(".") + 1).toLowerCase();
+            String suffixName = originalFilename.substring(originalFilename.indexOf('.') + 1).toLowerCase();
             if (Arrays.asList(suffixStr).contains(suffixName)) {
                 if (file.getSize() > 2097152) {
                     msg = "请选择小于 2M 的文件。";

@@ -1,5 +1,6 @@
 package com.details.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import sun.misc.BASE64Decoder;
@@ -18,10 +19,11 @@ import java.security.Security;
 /**
  * Aes加解密工具类
  */
+@Slf4j
 public class AesUtil {
 
-    private final static String PASSWORD = "hx+aisino+201711";
-
+    private static final String AES_GCM_NOPADDING = "AES/GCM/NoPadding";
+    private static final String UTF_8 = "UTF-8";
 
     /**
      * AES加密
@@ -43,20 +45,20 @@ public class AesUtil {
             if(type == 1){
                 byte[] raw = password.getBytes("utf-8");
                 SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+                Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
                 cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
                 byte[] encrypted = cipher.doFinal(sSrc.getBytes("utf-8"));
                 return getBase64(encrypted);
             }else{
                 byte[] raw = password.getBytes("gbk");
                 SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+                Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
                 cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
                 byte[] encrypted = cipher.doFinal(sSrc.getBytes("gbk"));
                 return getBase64(encrypted);
             }
         } catch (Exception e) {
-            // TODO: handle exception
+            log.error("加密异常"+e);
         }
         return null;
     }
@@ -84,28 +86,26 @@ public class AesUtil {
                 return null;
             }
             if(type == 1){
-                byte[] raw = password.getBytes("UTF-8");
+                byte[] raw = password.getBytes(UTF_8);
                 SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+                Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
                 cipher.init(Cipher.DECRYPT_MODE, skeySpec);
                 //先用base64解密
                 byte[] encrypted1 = getFromBase64(sSrc);
                 byte[] original = cipher.doFinal(encrypted1);
-                String originalString = new String(original, "utf-8");
-                return originalString;
+                return new String(original, UTF_8);
             }else{
                 byte[] raw = password.getBytes("gbk");
                 SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
-                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
+                Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
                 cipher.init(Cipher.DECRYPT_MODE, skeySpec);
                 //先用base64解密
                 byte[] encrypted1 = getFromBase64(sSrc);
                 byte[] original = cipher.doFinal(encrypted1);
-                String originalString = new String(original, "gbk");
-                return originalString;
+                return new String(original, "gbk");
             }
         }catch (Exception e){
-            e.printStackTrace();
+            log.error("解密异常decryptAES"+e);
         }
         return null;
     }
@@ -134,13 +134,13 @@ public class AesUtil {
             try {
                 b = decoder.decodeBuffer(s);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("解密异常getFromBase64"+e);
             }
         }
         return b;
     }
 
-    public static String Base64AndAESDecrypt128(String base64EncryptConent, String key, String keyIV, String encode) throws Exception {
+    public static String base64AndAESDecrypt128(String base64EncryptConent, String key, String keyIV, String encode) throws Exception {
         if (base64EncryptConent.length() % 8 != 0) {
             base64EncryptConent = base64EncryptConent.substring(0, base64EncryptConent.length()
                     - (base64EncryptConent.length() % 8));
@@ -155,7 +155,7 @@ public class AesUtil {
         Security.addProvider(new BouncyCastleProvider());
         SecretKeySpec sKey = new SecretKeySpec(keyArray, "AES");
 
-        Cipher eCipher = Cipher.getInstance("AES/ECB/NoPadding");
+        Cipher eCipher = Cipher.getInstance(AES_GCM_NOPADDING);
         eCipher.init(Cipher.DECRYPT_MODE, sKey);
         byte[] result = eCipher.doFinal(byEncry);
         int copyIndex = 0;
@@ -170,9 +170,7 @@ public class AesUtil {
         for (int i = 0; i < tmpresult.length; i++) {
             tmpresult[i] = result[i];
         }
-
-        String decryContent = new String(tmpresult, encode);
-        return decryContent;
+        return new String(tmpresult, encode);
 
     }
 
