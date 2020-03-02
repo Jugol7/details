@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>docker 第一篇</title>
+</head>
+<body>
+<pre>
+    docker
+        1.安装doocker
+            # step 1: 安装必要的一些系统工具
+            yum install -y yum-utils
+            # Step 2: 添加软件源信息
+            yum-config-manager --addhttp://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+            # Step 3: 更新并安装 Docker-CE
+            yum -y install docker-ce
+            #Step 4：aliyun加速
+            mkdir  /etc/docker/
+            echo '{ "registry-mirrors": ["https://almtd3fa.mirror.aliyuncs.com"] }' > /etc/docker/daemon.json
+            # Step 5: 开启Docker服务
+            service docker start
+            centos： cd /bin
+                    systemctl start docker.service
+                    systemctl status docker.service
+            # 查看日志
+                    journalctl -u docker.service
+
+            查看镜像 docker images
+            查看正在运行的镜像 docker ps
+            查看所有的镜像，包括关闭的的 docker ps -a
+            删除已停止的 docker rm 容器id/容器名称
+            停止正在运行的容器 docker stop 容器id/容器名称
+            删除镜像 docker rmi 镜像id/名称
+
+</pre>
+</body>
+</html>

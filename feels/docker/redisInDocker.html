@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>安装redis</title>
+</head>
+<body>
+<pre>
+    docker中安装redis
+        1.拉去镜像
+            docker pull redis
+        2。启动redis
+            docker run -d image名称(redis)
+            进入
+            docker exec -it 容器id/名称 bash
+        3. 输入redis-cli进入redis进行操作
+
+    设置容器名称
+    docker run -d --name myredis --net=host redis:3.2
+
+</pre>
+</body>
+</html>
