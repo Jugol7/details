@@ -11,12 +11,11 @@
             # step 1: 安装必要的一些系统工具
             yum install -y yum-utils
             # Step 2: 添加软件源信息
-            yum-config-manager --addhttp://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
+            yum-config-manager -- addhttp://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo
             # Step 3: 更新并安装 Docker-CE
             yum -y install docker-ce
             #Step 4：aliyun加速
-            mkdir  /etc/docker/
-            echo '{ "registry-mirrors": ["https://almtd3fa.mirror.aliyuncs.com"] }' > /etc/docker/daemon.json
+            mkdir  /etc/docker/ echo '{ "registry-mirrors": ["https://almtd3fa.mirror.aliyuncs.com"] }' > /etc/docker/daemon.json
             # Step 5: 开启Docker服务
             service docker start
             centos： cd /bin
@@ -31,6 +30,18 @@
             删除已停止的 docker rm 容器id/容器名称
             停止正在运行的容器 docker stop 容器id/容器名称
             删除镜像 docker rmi 镜像id/名称
+
+
+    卸载docker
+    yum list installed | grep docker
+    显示如下
+    containerd.io.x86_64    .....     .....
+    docker-ce.x86_64    ,......    ......
+    docker-ce-cli.x86_64  ....      .......
+    删除安装包
+    yum remove docker-ce.x86_64 ddocker-ce-cli.x86_64 -y
+    删除镜像/容器等等
+    rm -rf /var/lib/docker
 
 </pre>
 </body>
