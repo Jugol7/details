@@ -1,5 +1,9 @@
 package com.details.thread.callable;
 
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
@@ -11,7 +15,11 @@ import java.util.concurrent.FutureTask;
  * @author zlp
  * @date 11:25 2020/3/3
  */
+@Slf4j
 public class Test {
+
+    private final static Logger logger = LoggerFactory.getLogger(Test.class);
+
     public static void main(String[] args) {
         MyCallable myCallable = new MyCallable();
         FutureTask futureTask = new FutureTask(myCallable);
@@ -21,9 +29,10 @@ public class Test {
             //获取MyCallable的返回值
             System.out.println(futureTask.get());
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            logger.error("线程中断："+e);
+            Thread.currentThread().interrupt();
         } catch (ExecutionException e) {
-            e.printStackTrace();
+            logger.error("线程执行出错："+e);
         }
     }
 }
@@ -34,7 +43,7 @@ public class Test {
 class MyCallable implements Callable<String>{
 
     @Override
-    public String call() throws Exception {
+    public String call() {
         return "I am Callable<String>";
     }
 }
