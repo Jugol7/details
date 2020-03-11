@@ -1,5 +1,8 @@
 package com.details.thread.lock;
 
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 /***
@@ -9,9 +12,33 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class Test3 {
     public static void main(String[] args) {
+        TimeLock timeLock = new TimeLock();
+        new Thread(timeLock::getLock,"A").start();
+        new Thread(timeLock::getLock,"B").start();
     }
 }
+
+@Slf4j
 class TimeLock{
     private ReentrantLock reentrantLock = new ReentrantLock();
+    public void getLock(){
 
+        try {
+            //三秒内能否拿到锁。
+            if(reentrantLock.tryLock(3, TimeUnit.SECONDS)){
+                log.info(Thread.currentThread().getName()+"拿到了锁");
+                //休眠时间
+                TimeUnit.SECONDS.sleep(2);
+            }else {
+                log.info(Thread.currentThread().getName()+"没拿到锁");
+            }
+        } catch (InterruptedException e) {
+            log.error("异常信息："+e);
+        }finally {
+            if(reentrantLock.isHeldByCurrentThread()){
+                reentrantLock.unlock();
+            }
+        }
+
+    }
 }

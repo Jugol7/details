@@ -22,6 +22,7 @@
         ps命令，process status 用来列出系统中当前运行的那些进程
         firewall-cmd --state 查看状态
         firewall-cmd --list-all 所有开放的端口
+        netstat -antpl | grep 名称/端口 查看端口使用情况
         firewall-cmd --permanent --zone=public --add-port=8080-8081/tcp //永久
         firewall-cmd --zone=public --add-port=8080-8081/tcp //临时
         irewall-cmd --permanent --zone=public --list-services //服务空格隔开 例如 dhcpv6-client https ss
