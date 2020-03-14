@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>volatile</title>
+</head>
+<body>
+    <pre>
+        简单解析关键字volatile：
+        1.保持内存可见性：所有线程都能看到共享内存的最新状态
+            Java通过几种原子操作完成工作内存和主内存的交互：
+                lock：作用于主内存，把变量标识为线程独占状态。
+                unlock：作用于主内存，解除独占状态。
+                read：作用主内存，把一个变量的值从主内存传输到线程的工作内存。
+                load：作用于工作内存，把read操作传过来的变量值放入工作内存的变量副本中。
+                use：作用工作内存，把工作内存当中的一个变量值传给执行引擎。
+                assign：作用工作内存，把一个从执行引擎接收到的值赋值给工作内存的变量。
+                store：作用于工作内存的变量，把工作内存的一个变量的值传送到主内存中。
+                write：作用于主内存的变量，把store操作传来的变量的值放入主内存的变量中。
+        volatile的规则是 read load use动作必须连续出现
+                         assign store write动作必须连续出现
+        <h4>所以使用volatile关键字，可以保证：每次读取前，必须先从主内存刷新最新的值，每次存入时必须立即同步回主内存。</h4>
+        也就是说，volatile关键字修饰的变量看到的随时是自己的最新值。线程1中对变量v的最新修改，对线程2是可见的。
+
+        2.防指令重排
+        第一版：
+            public class Sin{
+                public Sin(){}
+                public static Sin sin;
+                public static Sin getSin(){
+                    if(sin == null){
+                        sin = new Sin();
+                     }
+                    return sin;
+                }
+            }
+        第二版：
+             public class Sin{
+                public Sin(){}
+                public static Sin sin;
+                public static Sin getSin(){
+                    if(sin == null){  //如果不等于null，就不会进入if，可能会得到一个“被部分初始化的对象”
+                        synchronized(Sin.class){
+                            if(sin == null){
+                                sin = new Sin();
+                            }
+                        }
+                     }
+                    return sin;
+                }
+            }
+
+            问题在于：sin = new Sin();
+            执行这句代码的内部流程：
+                memory = allocate();	//1：分配对象的内存空间
+                ctorInstance(memory);	//2：初始化对象
+                instance = memory;		//3：设置instance指向刚分配的内存地址（此时对象还未初始化）
+                1、2不可逆序，但是2、3可以，如果进行了指令重排序，那么3在2之前执行，那么instance引用指向的是还没有被完整初始化的，只进行了一部分。
+                然而，此时已不等于null，所以不会进入if，拿到的是一个部分初始化的对象。
+            解决这个问题的方式就是，将变量定义为volatile
+            synchronized代码块中，也会发生重排序，但是在返回之前，所有的初始化流程全会执行完，所以不会出现问题。
+    </pre>
+</body>
+</html>
