@@ -14,7 +14,7 @@ public class Test4 {
     public static void main(String[] args) {
         DeadLock deadLock1 = new DeadLock(1);
         DeadLock deadLock2 = new DeadLock(2);
-        new Thread(deadLock1::lock,"A").start();
+        new Thread(deadLock1::lock1,"A").start();
         try {
             TimeUnit.SECONDS.sleep(2);
         } catch (InterruptedException e) {
@@ -37,9 +37,42 @@ class DeadLock {
         this.num = num;
     }
 
-    public void lock2(){
+    public void lock2() {
 //        if (num == 2) {
-            log.info(Thread.currentThread().getName()+"拿到一只筷子" + num + "等待拿另一支");
+        log.info(Thread.currentThread().getName() + "拿到一只筷子" + num + "等待拿另一支");
+        synchronized (chopstick2) {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (chopstick1) {
+                log.info(Thread.currentThread().getName() + "拿到另一只筷子" + num + "用餐开始");
+            }
+//            }
+        }
+    }
+
+    /**
+     * 并非每一次都会死锁
+     */
+    public void lock() {
+        if (num == 1) {
+        log.info(Thread.currentThread().getName() + "拿到一只筷子" + num + "等待拿另一支");
+        synchronized (chopstick1) {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (chopstick2) {
+                log.info(Thread.currentThread().getName() + "拿到另一只筷子" + num + "用餐开始");
+            }
+            }
+        }
+
+        if (num == 2) {
+            log.info(Thread.currentThread().getName() + "拿到一只筷子" + num + "等待拿另一支");
             synchronized (chopstick2) {
                 try {
                     TimeUnit.SECONDS.sleep(3);
@@ -47,29 +80,25 @@ class DeadLock {
                     e.printStackTrace();
                 }
                 synchronized (chopstick1) {
-                    log.info(Thread.currentThread().getName()+"拿到另一只筷子" + num + "用餐开始");
+                    log.info(Thread.currentThread().getName() + "拿到另一只筷子" + num + "用餐开始");
                 }
-//            }
+            }
         }
     }
 
-
-    public void lock() {
+    public void lock1() {
 //        if (num == 1) {
-            log.info(Thread.currentThread().getName()+"拿到一只筷子" + num + "等待拿另一支");
-            synchronized (chopstick1) {
-                try {
-                    TimeUnit.SECONDS.sleep(3);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                synchronized (chopstick2) {
-                    log.info(Thread.currentThread().getName()+"拿到另一只筷子" + num + "用餐开始");
-                }
+        log.info(Thread.currentThread().getName() + "拿到一只筷子" + num + "等待拿另一支");
+        synchronized (chopstick1) {
+            try {
+                TimeUnit.SECONDS.sleep(3);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            synchronized (chopstick2) {
+                log.info(Thread.currentThread().getName() + "拿到另一只筷子" + num + "用餐开始");
+            }
 //            }
         }
-
-
-
     }
 }
