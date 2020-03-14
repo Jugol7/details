@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>spring 全家桶</title>
+</head>
+<body>
+    <pre>
+        spring：一个轻量级的框架，IOC与AOP是其重要的手段，可编写简洁，易于测试，易于管理的代码。
+        springMVC：spring的一个模块，web框架（针对网站应用），主要的结构组成是，Dispatcher Servlet、ModelAndView、View Resolver。
+                   DispatcherServlet：用来处理请求，在service层可重写doGet/doPost，ModelAndView：带有数据的交互媒介，ViewResolver：试图解析器
+        springBoot：由于spring配置繁杂，不易编写，就有了它，简化配置，约定大于配置。
+        springCloud：基于springBoot，关注于全局的服务治理框架。
+
+        spring VS springMVC
+        spring：一站式，轻量级框架，核心是IOC与AOP，可为开发的Web层，Service（业务）层，Dao（持久化）层等提供配置方案。
+        springMVC：基于spring之上，用于web网站开发，处理路径映射，视图渲染等，是spring中web的一部分。
+                    较于springBoot来说，mvc还能前端视图开发，文件配置（xml，config等），后台接口，
+
+        springMVC VS springBoot
+        springBoot：较于mvc来说，只专注于开发微服务接口，不开发前端视图。
+
+        springBoot VS springCloud
+        boot：默认大于配置，集成了spring的多个插件，简化了开发配置流程，一定程度上取消了xml配置，能进行快速开发。
+        Cloud：大部分基于boot去开发的，Cloud跟专注于微服务管理和整合，将多个boot整合管理，boot可独立开发，Cloud基于boot。
+
+        总结：
+        Spring是核心，提供了基础功能；
+        Spring MVC 是基于Spring的一个 MVC 框架 ；
+        Spring Boot 是为简化Spring配置的快速开发整合包；
+        Spring Cloud是构建在Spring Boot之上的服务治理框架。
+
+
+    </pre>>
+</body>
+</html>
