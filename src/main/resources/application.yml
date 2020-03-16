@@ -1,6 +1,13 @@
- server:
+spring:
+  application:
+    name: mongo-test
+  profiles:
+    active: local
+
+
+server:
   port: 8000
 
-# logging:
-#   config: classpath:logback-local.xml
-#   config: classpath:logback-${spring.profiles.active}.xml
+#日志
+#logging:
+#  config: classpath:logback-${spring.profiles.active}.xml

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>mongodb</title>
+</head>
+<body>
+<pre>
+    使用原生的mongodbTemplate
+    Query query = new Query();
+    query.addCriteria(where("enInfoId").is(enInfoId).and("machineNo").is(machineNo));
+    mongoTemplate.findOne(query , BillingPermission.class);
+
+</pre>
+</body>
+</html>
