@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author zlp
  * @date 14:30 2020/3/16
  */
-@NoRepositoryBean
+//@NoRepositoryBean
 public interface BaseMongoRepository<T,ID extends Serializable> extends MongoRepository<T,ID> {
     <S extends T> Page<S> findAll(final Example<S> example, final Query query, Pageable pageable);
 }

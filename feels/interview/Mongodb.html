@@ -6,7 +6,8 @@
 </head>
 <body>
 <pre>
-    使用原生的mongodbTemplate
+    可使用原生的mongodbTemplate
+    也可
     Query query = new Query();
     query.addCriteria(where("enInfoId").is(enInfoId).and("machineNo").is(machineNo));
     mongoTemplate.findOne(query , BillingPermission.class);

@@ -10,8 +10,8 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
  * @author zlp
  * @date 14:22 2020/3/16
  */
-@Configuration
-@EnableMongoRepositories()
+//@Configuration
+//@EnableMongoRepositories()
 public class MongoAuditingConfig {
 
     @Bean
