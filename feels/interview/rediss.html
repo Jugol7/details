@@ -35,7 +35,7 @@
             allkeys-random：当内存超出 maxmemory，在所有的 key 中，随机移除某个 key。（应该没人用吧）
             volatile-lru：当内存超出 maxmemory，在设置了过期时间 key 的字典中，移除最少使用的 key。把 Redis 既当缓存，又做持久化的时候使用这种策略。
             volatile-random：当内存超出 maxmemory，在设置了过期时间 key 的字典中，随机移除某个key。
-            volatile-ttl：当内存超出 maxmemory，在设置了过期时间 key 的字典中，优先移除 ttl 小的。
+            volatile-ttl：当内存超出 maxmemory，在设置了过期时间 key 的字典中，优先移除 ttl(过期时间) 小的。
 
             LRU算法：除了需要kl，还需链表，会根据每个key的24bit的时间戳排序，将最近访问的放在表头，删除表尾。
             LRU 淘汰策略是懒惰处理，不会主动执行淘汰策略，当执行写操作时，发现内存超出 maxmemory，就会执行 LRU 淘汰算法。

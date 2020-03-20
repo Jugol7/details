@@ -1,5 +1,7 @@
 package com.details.design;
 
+import java.util.LinkedHashMap;
+
 /***
  * 单例模式
  * @author zlp
