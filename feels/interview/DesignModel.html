@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>设计模式</title>
+</head>
+<body>
+<pre>
+    常用设计模式：
+    创建型模式（创建对象类型的）
+    1.单例模式
+        1.详情看com.details.design.SingleModel
+    2.工厂模式与抽象工厂模式
+        1.工厂模式
+        interface Sender{ send();}
+            EmailFac impl Sender{ send(){"使用email发送"}}
+            SmsFac impl Sender{ send(){"使用sms发送"}}
+        class Fac{
+            Sender getSender(String type){
+                if(type == ...){
+                    return ...
+                 }
+            }
+        }
+
+        2.抽象工厂模式
+            interface Fac{ Sender send()}
+            class email impl Fac{ sender send(){ return email}}
+            class sms impl Fac{ sender send(){ return sms}}
+
+</pre>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Spring Cloud</title>
+</head>
+<body>
+<pre>
+    Spring Cloud:
+    一、eureka 服务注册
+        类似中介，各个服务是服务生产者也是服务消费者
+        默认90秒无心跳会自动删除服务
+    二、Ribbon 是Netflix公司的一个开源的负载均衡 项目，是一个客户端/进程内负载均衡器，<h3>运行在消费者端。</h3>
+        首先在spring中RestTemplate用来访问http服务的，服务之间的调用是用的它，eureka的底层注册等实现都是使用RestTemplate
+    与大名鼎鼎的nginx相比：
+    nginx：集中式的：就是将所有请求集中在一起，在负载到各个服务器。
+    ribbon：是在消费者端进行请求负载。
+    三、负载均衡算法
+        Nginx使用的是轮询、加权轮询
+        ribbon：其默认是使用的RoundRobinRule轮询策略
+            RoundRobinRule：轮询策略。Ribbon默认采用的策略。若经过一轮轮询没有找到可用的provider，其最多轮询 10 轮。若最终还没有找到，则返回 null。
+            RandomRule: 随机策略，从所有可用的 provider 中随机选择一个。
+            RetryRule: 重试策略。先按照 RoundRobinRule 策略获取 provider，若获取失败，则在指定的时限内重试。默认的时限为 500 毫秒。
+    四、OpenFeign：服务间调用，也是运行在消费者端的，使用 Ribbon 进行负载均衡，所以 OpenFeign 直接内置了 Ribbon。
+        @FeignClient(value = "eureka-client-provider")指定服务提供者
+    五、Hystrix：熔断与降级
+        什么是 Hystrix之熔断和降级？
+        在分布式环境中，不可避免地会有许多服务依赖项中的某些失败。
+        Hystrix是一个库，可通过添加等待时间容限和容错逻辑来帮助您控制这些分布式服务之间的交互。
+        Hystrix通过隔离服务之间的访问点，停止服务之间的级联故障并提供后备选项来实现此目的，所有这些都可以提高系统的整体弹性。
+        举例：整个微服务系统是这样的。服务A调用了服务B，服务B再调用了服务C，但是因为某些原因，服务C顶不住了，这个时候大量请求会在服务C阻塞。
+            此时，得不到C响应，那么会导致A、B也阻塞（请求会消耗占用系统的线程、IO 等资源），这就是服务器雪崩。
+            而熔断就是解决的凡是之一，在指定时间内得不到响应，就会将B、C之间的请求断掉（断路器模式）；
+        @HystrixCommand(commandProperties = {@HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "1200")})
+        而降级式对用户有一个更好体验，fallbackMethod设置备用代码逻辑，
+                / 指定了后备方法调用
+            @HystrixCommand(fallbackMethod = "getHystrixNews")
+            @GetMapping("/get/news")
+            public News getNews(@PathVariable("id") int id) {
+                // 调用新闻系统的获取新闻api 代码逻辑省略
+            }
+            //
+            public News getHystrixNews(@PathVariable("id") int id) {
+                // 做服务降级
+                // 返回当前人数太多，请稍后查看
+            }
+        六：Zuul微服务网关
+            ZUUL 是从设备和 web 站点到 Netflix 流应用后端的所有请求的前门。作为边界服务应用，ZUUL 是为了实现动态路由、监视、弹性和安全性而构建的。
+            它还具有根据情况将请求路由到多个 Amazon Auto Scaling Groups（亚马逊自动缩放组，亚马逊的一种云计算方式） 的能力 。
+
+</pre>
+</body>
+</html>

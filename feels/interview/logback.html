@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>log4j</title>
+</head>
+<body>
+<pre>
+    logback:
+        1.Spring Boot 自带的日志框架
+        2.使用时无需导入依赖
+        3.日志级别从低到高分为TRACE < DEBUG < INFO < WARN < ERROR < FATAL，如果设置为WARN，则低于WARN的信息都不会输出。
+        4.默认不会输出到文件 设置logging.file，或者logging.path
+        5.三个主体内容，
+            Logger、关联应用对应的context上，指定输出级别
+            <Logger name="" level="">
+            appender、指定日志输出位置，console、file
+            layout、负责把事件转换成字符串，格式化的日志信息的输出。
+</pre>
+</body>
+</html>
