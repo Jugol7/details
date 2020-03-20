@@ -9,6 +9,8 @@ import java.util.HashMap;
 /**
  * Least Frequently Used
  *实现LFU算法
+ * redis的内存淘汰算法之一
+ * 被动执行，当要超出maxmemory时调用
  * @author zlp
  * @date 2019-11-19 16:09
  */

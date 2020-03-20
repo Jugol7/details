@@ -2,17 +2,51 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>进程与线程的区别</title>
+    <title>线程相关</title>
 </head>
 <body>
 <pre>
+    一、进程与线程的区别
     进程是一个可独立运行的程序，是系统进行资源分配与调度d的独立单位。
     线程是进程的实体，CPU调度的基本单位，
             进程                      线程
     区别：资源分配的最小单位        程序执行的最小单位
-         CPU切换一个线程比进程花费小
-         创建一个线程比进行开销小
-         线程占用的资源比进程少很多
+            CPU切换一个线程比进程花费小
+            创建一个线程比进行开销小
+            线程占用的资源比进程少很多
+            进程有自己独立的地址空间，每启动一个进程，系统都会为其分配地址空间，建立数据表来维护代码段、堆栈段和数据段，
+            线程没有独立的地址空间，它使用相同的地址空间共享数据；
+            线程之间通信更方便，同一个进程下，线程共享全局变量，静态变量等数据，进程之间的通信需要以通信的方式（IPC）进行；
+            （但多线程程序处理好同步与互斥是个难点）
+            多进程程序更安全，生命力更强，一个进程死掉不会对另一个进程造成影响（源于有独立的地址空间），多线程程序更不易维护，
+            一个线程死掉，整个进程就死掉了（因为共享地址空间）；
+            进程对资源保护要求高，开销大，效率相对较低，线程资源保护要求不高，但开销小，效率高，可频繁切换；
+
+    二、相关试题
+        1.Runnable与Callable的区别
+            Runnable中的run()是void，执行单纯的去执行
+            Callable中的call()是有返回值的(泛型)，与Future、FutureTaskTask配合获取结果FutureTask.get()
+        2.怎么检测一个线程是否持有对象监视器
+            Thread.holdsLock(),当且仅当当前线程被持有，才返回true，static方法
+        3.为什么要使用线程池  线程重用，控制并发
+        4.synchronized和ReentrantLock的区别
+            一个是关键字，一个是类
+            ReentrantLock可以获取各种锁的信息；ReentrantLock可以对获取锁的等待时间进行设置，这样就避免了死锁；ReentrantLock可以灵活地实现多路通知
+        5.1ConcurrentHashMap的并发度是什么
+            ConcurrentHashMap的并发度就是segment的大小，默认为16，这意味着最多同时可以有16条线程操作ConcurrentHashMap，
+            这也是ConcurrentHashMap对Hashtable的最大优势，任何情况下，Hashtable能同时有两条线程获取Hashtable中的数据吗？
+        6.如果你提交任务时，线程池队列已满，这时会发生什么？
+            1.如果是LinkedBlockingQueue,那就无关紧要，继续加入队列，因为此队列是无限大的。
+            2.如果是ArrayBlockingQueue,首先加入到queue中，如果满了，就根据maximumPoolSize增加线程，如果还是处理不了，那就拒绝策略了。
+        拒绝策略如下：
+            1.AbortPolicy：（abort：中止）默认采用，不执行此任务，并且抛出异常。切记ThreadPoolExecutor.execute需要try catch，否则程序会直接退出。
+            2.DiscardPolicy：（discard：抛弃）直接抛弃，任务不执行，空方法。
+            3.DiscardOldestPolicy：丢掉最老的任务。
+            4.CallerRunsPolicy：在调用execute的线程里面执行此command，会阻塞入口。
+            5.RejectedExecutionHandler：自定义策略模式，
+            再次需要注意的是，ThreadPoolExecutor.submit（） 函数，此方法内部调用的execute方法，并把execute执行完后的结果给返回，
+            但如果任务并没有执行的话（被拒绝了），则submit返回的future.get()会一直等到，
+            future 内部其实还是一个runnable，并把command给封装了下，当command执行完后，future会返回一个值。
 
 
 
