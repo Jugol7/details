@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ArrayList与LinkedList的区别</title>
+</head>
+<body>
+<pre>
+
+
+    ArrayList<String > arrayList = new ArrayList<>();
+    /**
+     * 数组扩容，使用唯一得方式，length+length >> 1 达到增加0.5倍左右得效果
+     * 复制长度，复制数据
+     *  System.arrayCopy([] array, int sourceStart, [] array, int targetStart,int ;length)
+     *  System.arraycopy(elementData, index, elementData, index + 1,size - index);
+     *  原数组，原数组复制得起始位置， 目标数组，目标数组得起始位置， 复制的长度。
+     */
+    arrayList.add(2,"");
+    LinkedList<String> linkedList = new LinkedList<>();
+    /**
+     * 链表的插入，简单，只需要判断index是否是特殊的首尾情况，将找到当前index的node，将pre，next进行重新指向。
+     */
+    linkedList.add(2,"");
+
+    区别：
+    1．对ArrayList和LinkedList而言，在列表末尾增加一个元素所花的开销都是固定的。
+    对ArrayList而言，主要是在内部数组中增加一项，指向所添加的元素，偶尔可能会导致对数组重新进行分配；
+    而对LinkedList而言，这个开销是统一的，分配一个内部Entry对象。
+    2．在ArrayList的中间插入或删除一个元素意味着这个列表中剩余的元素都会被移动；而在LinkedList的中间插入或删除一个元素的开销是固定的。
+    3．LinkedList不支持高效的随机元素访问。
+    4．ArrayList的空间浪费主要体现在在list列表的结尾预留一定的容量空间，而LinkedList的空间花费则体现在它的每一个元素都需要消耗相当的空间
+
+</pre>
+</body>
+</html>

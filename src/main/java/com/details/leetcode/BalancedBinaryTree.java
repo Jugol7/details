@@ -1,5 +1,8 @@
 package com.details.leetcode;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+
 /***
  * 平衡二叉树
  * 定义：一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过1。
@@ -8,6 +11,9 @@ package com.details.leetcode;
  * @date 17:44 2020/3/21
  */
 public class BalancedBinaryTree {
+    public static void main(String[] args) {
+
+    }
 
     public int getHight(TreeNode node) {
         if (node == null) {
