@@ -22,20 +22,22 @@ import java.util.UUID;
 public class FilesUtil {
 
     private static String filePath;
-
     /**
      * 递归删除文件夹下的文件
-     *
      * @param file
      */
     public static void deleteInsideFile(File file) {
         if (file.exists()) {
             if (file.isFile()) {
-                file.delete();
+                if(!file.delete()){
+                    log.error("删除文件异常："+file.getAbsolutePath());
+                }
             } else if (file.isDirectory()) {
                 File[] files = file.listFiles();
-                for (File f : files) {
-                    deleteInsideFile(f);
+                if (files != null) {
+                    for (File f : files) {
+                        deleteInsideFile(f);
+                    }
                 }
             }
         }
@@ -78,22 +80,25 @@ public class FilesUtil {
      * @param file
      * @return
      */
-    public static String checkFileImage(MultipartFile file) {
-        String msg = "";
-        String[] suffixStr = {"gif", "jpg", "png", "jpeg"};
+    private static String checkFileImage(MultipartFile file) {
+        String message = "";
+        String[] suffixStr = {"gif", "jpg", "png"};
         if (file != null) {
             String originalFilename = file.getOriginalFilename();
-            String suffixName = originalFilename.substring(originalFilename.indexOf('.') + 1).toLowerCase();
+            String suffixName = null;
+            if (originalFilename != null) {
+                suffixName = originalFilename.substring(originalFilename.indexOf('.') + 1).toLowerCase();
+            }
             if (Arrays.asList(suffixStr).contains(suffixName)) {
-                if (file.getSize() > 2097152) {
-                    msg = "请选择小于 2M 的文件。";
+                if (file.getSize() > 1048576) {
+                    message = "请选择小于 2M 的文件。";
                 }
             } else {
-                msg = "请选择以下文件类型：" + Arrays.asList(suffixStr);
+                message = "请选择以下文件类型：" + Arrays.asList(suffixStr);
             }
         } else {
-            msg = "请选择上传的文件！";
+            message = "请选择上传的文件！";
         }
-        return msg;
+        return message;
     }
 }

@@ -27,8 +27,10 @@ public class AesUtil {
 
     public static void main(String[] args) {
         String name = "zlp";
-        Object encryptAES = encryptAES(name, "1234567890abcdef", 1);
-        System.out.println(encryptAES);
+        Object encryptAES = encryptAES(name, "zlpzlp", 1);
+        if (encryptAES != null) {
+            log.info(encryptAES.toString());
+        }
     }
     /**
      * AES加密
@@ -47,6 +49,7 @@ public class AesUtil {
             // 判断Key是否为16位
             int len = 16;
             if (password.length() != len) {
+                log.error("password长度不足16"+password);
                 throw new Exception();
             }
             if(type == 1){
