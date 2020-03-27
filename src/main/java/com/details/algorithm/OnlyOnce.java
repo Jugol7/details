@@ -1,9 +1,7 @@
 package com.details.algorithm;
 
-import java.util.HashMap;
-
 /***
- * 一个数组中 只出现一次的数字  且只有一个
+ * 一个数组中 只出现一次的数字  且只有一个  其他数字均出现两次
  * @author zlp
  * @date 17:31 2020/3/26
  */
