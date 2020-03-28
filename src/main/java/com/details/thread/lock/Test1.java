@@ -11,7 +11,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * synchronized是通过JVM实现锁机制，ReentrantLock是通过JDK实现锁机制。
  * 重入锁可以给同一个资源加多把锁，synchronized线程执行完毕之后自动释放锁，ReentrantLock需要手动释放
  *
- * 两者的去呗
+ * 两者的区别
  *  synchronized                                 Lock
  * 1.关键字                                     接口
  * 2.JVM实现锁                                 jdk实现锁
