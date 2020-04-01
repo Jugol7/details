@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>RedisShake</title>
+</head>
+<body>
+<pre>
+    通过RedisShake进行数据迁移，操作步骤如下：
+    https://github.com/alibaba/RedisShake
+    https://github.com/alibaba/RedisShake/wiki/FAQ
+        1、在linux系统中，下载并解压RedisShake。下载地址 https://github.com/alibaba/RedisShake/releases
+        2、修改配置文件redis-shake.conf，如两个集群间的数据迁移，可对以下配置进行修改：
+        # 源端redis的类型，支持standalone，sentinel，cluster和proxy四种模式，注意：目前proxy只用于rump模式。
+        source.type = cluster
+        # 源redis地址
+        source.address = ip+port;分号隔开,最后一个不要分号
+        # 源redis密码，没有可不填
+        source.password_raw =
+
+        #目的redis的类型，支持standalone，sentinel，cluster和proxy四种模式
+        target.type = cluster
+        #目的redis地址
+        target.address = ip+port;分号隔开,最后一个不要分号
+        #目的redis密码，没有可不填
+        target.password_raw =
+
+        3、执行命令：./redis-shake.linux  -type=sync -conf=redis-shake.conf
+
+    解决 "[PANIC] parse rdb entry error, if the err is :EOF,
+        增加parallel的参数，提升性能。
+</pre>
+</body>
+</html>
