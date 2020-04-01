@@ -14,14 +14,14 @@
         # 源端redis的类型，支持standalone，sentinel，cluster和proxy四种模式，注意：目前proxy只用于rump模式。
         source.type = cluster
         # 源redis地址
-        source.address = ip+port;分号隔开,最后一个不要分号
+        source.address = ip+port;分号隔开,最后一个不要分号(全部的ip+port)
         # 源redis密码，没有可不填
         source.password_raw =
 
         #目的redis的类型，支持standalone，sentinel，cluster和proxy四种模式
         target.type = cluster
         #目的redis地址
-        target.address = ip+port;分号隔开,最后一个不要分号
+        target.address = ip+port;分号隔开,最后一个不要分号(全部的ip+port)()
         #目的redis密码，没有可不填
         target.password_raw =
 
@@ -29,6 +29,23 @@
 
     解决 "[PANIC] parse rdb entry error, if the err is :EOF,
         增加parallel的参数，提升性能。
+
+    检查数据是否一致
+    wget https://github.com/alibaba/RedisFullCheck/releases/download/release-v1.4.8-20200212/redis-full-check-1.4.8.tar.gz
+    下载 解压
+    ./redis-full-check -s "192.168.52.149:5001;192.168.52.149:5002;192.168.52.151:5001" -t "192.168.51.3:7771;192.168.51.3:7772;192.168.51.3:7773" --comparemode=1 --comparetimes=1 --qps=10 --batchcount=100 --sourcedbtype=1 --targetdbtype=1 --targetdbfilterlist=0
+
+    -s 与 -t 对应的是all  master   对    all  master
+                     all  salves   对    all  salves
+
+    在当前文件夹下，生成一个文件 result.db.1，比较几次有几个，comparetimes
+    sqlite3 result.db.1进入
+        表key：保存不一致的key
+        表field：保存hash,set,zset,list不一致的field, list 存的是下标值
+        表feild的key_id字段关联表key的id字段
+        表key_<N>和field_<N>：保存第N轮比较后的结果，即中间结果。
+            select * from key;
+            select * from field;
 </pre>
 </body>
 </html>
