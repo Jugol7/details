@@ -14,18 +14,20 @@
         # 源端redis的类型，支持standalone，sentinel，cluster和proxy四种模式，注意：目前proxy只用于rump模式。
         source.type = cluster
         # 源redis地址
-        source.address = ip+port;分号隔开,最后一个不要分号(全部的ip+port)
+        source.address = ip+port;分号隔开,最后一个不要分号(全部的ip+port)(对应三个主节点亦可)
         # 源redis密码，没有可不填
         source.password_raw =
 
         #目的redis的类型，支持standalone，sentinel，cluster和proxy四种模式
         target.type = cluster
         #目的redis地址
-        target.address = ip+port;分号隔开,最后一个不要分号(全部的ip+port)()
+        target.address = ip+port;分号隔开,最后一个不要分号(全部的ip+port)(对应三个主节点亦可)
         #目的redis密码，没有可不填
         target.password_raw =
 
         3、执行命令：./redis-shake.linux  -type=sync -conf=redis-shake.conf
+
+    会有一个持续无限的增量同步，确保两个环境的数据一模一样，如果退出持续增量，那就不同步了。
 
     解决 "[PANIC] parse rdb entry error, if the err is :EOF,
         增加parallel的参数，提升性能。
@@ -46,6 +48,7 @@
         表key_<N>和field_<N>：保存第N轮比较后的结果，即中间结果。
             select * from key;
             select * from field;
+            .quit退出
 </pre>
 </body>
 </html>
