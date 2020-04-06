@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redis相关操作</title>
+</head>
+<body>
+<pre>
+    一、Redis支持数据类型
+    1.String（字符串）
+        格式：set k v
+        String类型是二进制安全的，就是说可存储所有的数据类型，包括jpg，序列化等；此乃最基本的数据类型，一个键最大可存储512M
+    2.Hash（哈希）
+        格式：hmset name k1 v1 k2 v2
+        Redis hash是一个键值对集合
+        Redis hash是一个string类型的field和value的映射表，hash特别适合用于存储对象。
+    3.List（列表）
+        Redis列表是简单的字符串列表，按照插入顺序排序，可添加到头部/尾部。
+        格式：
+        lpush name value 在头部添加
+        rpush name value 在尾部添加
+        lrem nam index   key 对应 list 中删除 count 个和 value 相同的元素
+        llen name  返回列表长度
+    4.set（集合）
+        格式：sadd name value
+        Redis的Set是string类型的无序集合。集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是O(1)。
+    5.zset（有序集合）
+        格式：zadd name score value
+        Redis zset 和 set 一样也是string类型元素的集合,且不允许重复的成员。不同的是每个元素都会关联一个double类型的分数。
+        redis正是通过分数来为集合中的成员进行从小到大的排序。zset的成员是唯一的,但分数(score)却可以重复。
+    二、Redis持久化
+        1.什么是持久化
+            持久化就是把内存数据写到磁盘中，防止服务器宕机了内存数据丢失。
+            两种方式：
+                RDB（默认）：Redis DataBase缩写，此功能核心函数是rdbSave（生成RDB文件）和rdbLoad（从文件加载内存）
+                AOF：Append-only file缩写，每当执行服务器(定时)任务或者函数时flushAppendOnlyFile 函数都会被调用， 这个函数执行以下两个工作。
+                AOF写入保存：WRITE：根据条件，阿静aof_buf中的缓存写入AOF文件中。
+                            SAVE：根据条件，调用fsync或者fdatasync函数写入磁盘中。
+                存储结构：内容是redis通讯协议(RESP )格式的命令文本存储。
+                关于RESP：RESP 是redis客户端和服务端之前使用的一种通讯协议；
+                特点：实现简单，快速解析，可读性强。
+                比较：
+                aof文件更新频率高，优先使用aof还原数据
+                aof更大更安全
+                rdb性能更好
+                如果两个都分配了，优先加载AOF。
+        三、Redis的架构
+            1、单机版：内存容量有限，处理能力有限，无法高可用。
+            2、主从复制：只要主从之间网络正常，主从中的数据就会是一样的，主服务器会一直将发生在自己身上的数据更新同步到从服务器，保证数据一致。
+            特点：master/salve 角色，数据一致，降低master读的压力分配到从节点。
+            问题：无法保证高可用，无法解决master写压力
+            3、哨兵模式：一个分布式系统中监控redis主从服务器，并且在主服务器下线时自动进行故障转移，监控：不断检查主从服务器是否正常运行
+                        提醒：当监控到某个服务器出现问题时，，回通过API向管理员或者应用程序发送通知，自动故障迁移：
+                特点：保证高可用，监控各个节点，自动故障迁移。
+            4.集群（proxy 型）
+                Twemproxy 是一个 Twitter 开源的一个 redis 和 memcache 快速/轻量级代理服务器；Twemproxy 是一个快速的单线程代理程序，支持 Memcached ASCII 协议和 redis 协议。
+                特点：
+                多种 hash 算法：MD5、CRC16、CRC32、CRC32a、hsieh、murmur、Jenkins
+                支持失败节点自动删除
+                后端 Sharding 分片逻辑对业务透明，业务方的读写方式和操作单个 Redis 一致
+                缺点：
+                增加了新的 proxy，需要维护其高可用。
+                failover 逻辑需要自己实现，其本身不能支持故障的自动转移可扩展性差，进行扩缩容都需要手动干预
+             集群（直连型）：
+                从redis 3.0之后版本支持redis-cluster集群，Redis-Cluster采用无中心结构，每个节点保存数据和整个集群状态,每个节点都和其他所有节点连接。
+                特点：
+                无中心架构（不存在哪个节点影响性能瓶颈），少了 proxy 层。
+                数据按照 slot 存储分布在多个节点，节点间数据共享，可动态调整数据分布。
+                可扩展性，可线性扩展到 1000 个节点，节点可动态添加或删除。
+                高可用性，部分节点不可用时，集群仍可用。通过增加 Slave 做备份数据副本
+                -实现故障自动 failover，节点之间通过 gossip 协议交换状态信息，用投票机制完成 Slave到 Master 的角色提升。
+                缺点：
+                资源隔离性较差，容易出现相互影响的情况。
+                数据通过异步复制,不保证数据的强一致性。
+            4.如何实现分布式锁
+                先拿setnx来争抢锁，抢到之后，再用expire给锁加一个过期时间防止锁忘记了释放。如果在setnx之后执行expire之前进程意外crash或者要重启维护了，
+                那会怎么样？set指令有非常复杂的参数，这个应该是可以同时把setnx和expire合成一条指令来用的！
+            5.怎么使用Redis异步队列么，有什么缺点？
+                一般使用list结构作为队列，rpush生成消息，lpop消费消息，lpop没有消息的时候，要适当的sleep一会在重试。
+                缺点：消费者下线的情况下，生产的消息回丢失，需要使用专业的消息队列。
+                可以使用pub/sub主题订阅模式，可实现1：N的消息队列。
+            6.
+
+
+
+</pre>
+</body>
+</html>
