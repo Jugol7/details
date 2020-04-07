@@ -12,6 +12,17 @@
     query.addCriteria(where("enInfoId").is(enInfoId).and("machineNo").is(machineNo));
     mongoTemplate.findOne(query , BillingPermission.class);
 
+
+
+    mongo数据备份与恢复
+    导出：
+        建目录
+        mongodump --port 27017 -d e9 -o /opt/e9_daochu/
+        没有挂载，需要从docker中复制出来
+        docker cp mongo:/opt/e9_daochu/e9/ /opt/
+
+        导入：
+        mongorestore -h dbhost -d dbname --dir dbdirectory
 </pre>
 </body>
 </html>
