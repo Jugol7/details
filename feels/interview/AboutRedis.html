@@ -34,7 +34,7 @@
             两种方式：
                 RDB（默认）：Redis DataBase缩写，此功能核心函数是rdbSave（生成RDB文件）和rdbLoad（从文件加载内存）
                 AOF：Append-only file缩写，每当执行服务器(定时)任务或者函数时flushAppendOnlyFile 函数都会被调用， 这个函数执行以下两个工作。
-                AOF写入保存：WRITE：根据条件，阿静aof_buf中的缓存写入AOF文件中。
+                AOF写入保存：WRITE：根据条件，将aof_buf中的缓存写入AOF文件中。
                             SAVE：根据条件，调用fsync或者fdatasync函数写入磁盘中。
                 存储结构：内容是redis通讯协议(RESP )格式的命令文本存储。
                 关于RESP：RESP 是redis客户端和服务端之前使用的一种通讯协议；

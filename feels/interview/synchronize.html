@@ -45,7 +45,7 @@
             缺点：1.只保证一个共享变量具备原子性，如果是多个，那就不行了，互斥锁可满足。
                     2.长时间的自旋，会消耗CPU，带来大量开销。
                     3.ABA现象，如果原来是A，被改成B，又被改成A，会认为没有改变过，这种现象对于依赖过程值得影响很大，可借助版本号处理
-    9.更synchronized相比，可重入锁reentrantLock得实现原理有何不同？
+    9.与synchronized相比，可重入锁reentrantLock得实现原理有何不同？
         synchronized是通过内核标记来区分 JVM实现，而另一个是jdk实现都是通过一个被volitile修饰的int值实现，保证每个线程都这个int值具备可见性与原子性。AQS框架
 </pre>
 </body>
