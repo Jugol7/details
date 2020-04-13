@@ -10,11 +10,12 @@ import java.util.Arrays;
 public class BinarySearch {
 
     public static void main(String[] args) {
-        int base = 8;
+        int base = 81;
         int [] arr = {2,3,1,4,5,7,8,3};
 //        Integer integer = binarySerach(base, arr,0,arr.length+1);
         Integer integer = binarySerach2(base, arr);
         System.out.println(integer);
+//        System.out.println("---------------====------------------");
 //        int i = sourceFromSc();
 //        System.out.println(i);
     }
@@ -55,7 +56,7 @@ public class BinarySearch {
         int high = arr.length;
         int mid;
         //这里使用 low<high还是 low<=high
-        while(true){
+        while(low <= high){
             mid = (low+high)/2;
             if(arr[mid] == base){
                 return mid;
@@ -67,6 +68,7 @@ public class BinarySearch {
                 low = mid - 1;
             }
         }
+        return -1;
     }
 
     /**
@@ -75,25 +77,25 @@ public class BinarySearch {
      */
     public static int sourceFromSc(){
         int[]arr = {1,2,3,4,5,5,5,6,7,8,8,9};
-        int target = 2;
+        int target = 9;
         int start = 0;
-        int end = arr.length - 1;
+        int end = arr.length;
         //闭区间
         while (start <= end) {
-            int mid = start + (end - start) >> 1;
+            int mid = start + ((end - start) >> 1);
             if (arr[mid] == target) {
-                // end = mid - 1
-                return mid;
+                 end = mid - 1;
+//                return mid;
             } else if (arr[mid] > target) {
                 end = mid - 1;
             } else if (arr[mid] < target) {
-                // start = mid + 1
-                start = mid;
+                 start = mid + 1;
+//                start = mid;
             }
         }
-        return -1;
-        // if(start>=arr.length || arr[start]!==target) return -1
-        // return start
+//        return -1;
+         if(start>=arr.length || arr[start]!=target) return -1;
+         return start;
     }
 
 }

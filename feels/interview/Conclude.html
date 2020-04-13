@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>总结</title>
+</head>
+<body>
+<pre>
+    spring ioc的注入方式
+    1.setter注入
+    <bean id = ''>
+        <property name value></property>
+    </bean>
+    2.构造方法注入
+    <bean id>
+        <construct-args></construct-args>
+    </bean>
+    2.hashtable安全，hashmap为什么不安全
+    hashtable给 操作方法加了synchronized。香港与给整个哈希表加锁
+    类似 Collections.synchronizedList/map  安全的原因是把map的操作 放在synchronized块中。
+    CopyOnWriteList：在操作数据的方法中使用ReentrantLock枷锁
+    ConcurrentHashmap:使用Segment数组，Segment继承了 ReentrantLock ，维护了一个数据，具体版本不清楚，以前是用的hashentry，8之后用的Node类型的，用volatile修饰，Node里面的val与next也用volatile修饰了。
+    3.如何保证幂等性
+        一般只有修改与新增是才需要保证幂等性
+        1.代码逻辑处理，在参数上传递唯一订单号，或者状态等
+        2.使用token，存放在缓存中，页面跳转时获取存放到pageScope，操作之前先获取token，提交操作完成，删除redis，更新redis
+    4.mybatis中的sqlsession时线程安全的吗，一级缓存与二级缓存
+
+    乐观锁与悲观锁的原理
+
+    线程池的原理
+
+    5.什么是线程安全
+
+    6.eureka的原理
+
+    7.负载均衡的原理
+
+    8.rpc框架，http远程调用，是如何处理超时的
+
+
+
+
+
+</pre>
+</body>
+</html>
