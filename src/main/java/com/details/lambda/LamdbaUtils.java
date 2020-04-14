@@ -1,8 +1,11 @@
 package com.details.lambda;
 
 import com.details.entity.Student;
+import jdk.nashorn.internal.runtime.options.Option;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -36,6 +39,23 @@ public class LamdbaUtils {
         //数值计算
         Integer num = Stream.of(97,9,8).reduce(4,(qq,x) -> qq-x);
         return String.valueOf(num);
+    }
+
+    public static void testOption(){
+        List<String> list = new ArrayList<>();
+        list.add("fuck");
+        list.add("u");
+        Optional<Object> empty = Optional.empty();
+
+        Optional<List<String>> list2 = Optional.of(list);
+        Optional<List<String>> list1 = Optional.ofNullable(list);
+        System.out.println("empty()  "+empty);
+        System.out.println("of()  "+list2);
+        System.out.println("ofNullable()  "+list1);
+    }
+
+    public static void main(String[] args) {
+        testOption();
     }
 
 }
