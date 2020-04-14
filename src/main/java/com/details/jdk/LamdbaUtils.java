@@ -1,7 +1,6 @@
-package com.details.lambda;
+package com.details.jdk;
 
 import com.details.entity.Student;
-import jdk.nashorn.internal.runtime.options.Option;
 
 import java.util.ArrayList;
 import java.util.List;
