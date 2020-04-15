@@ -2,7 +2,7 @@ package com.details.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
+//import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -162,7 +162,7 @@ public class AesUtil {
         int minLenKey = Math.min(keyArray.length, tempKey.length);
         for (int i = 0; i < minLenKey; ++i)
             keyArray[i] = tempKey[i];
-        Security.addProvider(new BouncyCastleProvider());
+//        Security.addProvider(new BouncyCastleProvider());
         SecretKeySpec sKey = new SecretKeySpec(keyArray, "AES");
 
         Cipher eCipher = Cipher.getInstance(AES_GCM_NOPADDING);
