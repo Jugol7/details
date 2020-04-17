@@ -42,6 +42,18 @@
 
         导入：
         mongorestore -h dbhost -d dbname --dir dbdirectory
+
+
+    若针对分片失败
+        mongo 192.168.xx.xxx:22001/admin
+        use admin //需使用admin
+        db.auth("superman","3e2eb1871ef439ff2130") //没有认证需要，可不执行
+        db.runCommand( { enablesharding :"e9"});
+        db.runCommand( { shardcollection : "e9.invoiceOrder",key : {"taxNo": 1} } );
+        //分片后，指定恢复集合
+        mongorestore -h 192.168.51.110:22001 -c invoiceOrder -d e9 --drop /data/db/data/e9/invoiceOrder.bson;
+
+
 </pre>
 </body>
 </html>
