@@ -14,13 +14,15 @@ public class Test4 {
     public static void main(String[] args) {
         DeadLock deadLock1 = new DeadLock(1);
         DeadLock deadLock2 = new DeadLock(2);
-        new Thread(deadLock1::lock1,"A").start();
+//        new Thread(deadLock1::lock1,"A").start();
+//        new Thread(deadLock2::lock2,"B").start();
+        new Thread(deadLock1::lock,"C").start();
         try {
-            TimeUnit.SECONDS.sleep(2);
+            TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        new Thread(deadLock2::lock2,"B").start();
+        new Thread(deadLock2::lock,"D").start();
     }
 }
 
@@ -61,7 +63,7 @@ class DeadLock {
         log.info(Thread.currentThread().getName() + "拿到一只筷子" + num + "等待拿另一支");
         synchronized (chopstick1) {
             try {
-                TimeUnit.SECONDS.sleep(3);
+                TimeUnit.SECONDS.sleep(5);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

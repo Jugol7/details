@@ -20,7 +20,7 @@ public class Test3 {
 
 @Slf4j
 class TimeLock{
-    private ReentrantLock reentrantLock = new ReentrantLock();
+    private ReentrantLock reentrantLock = new ReentrantLock(true);
     public void getLock(){
 
         try {
