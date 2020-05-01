@@ -27,6 +27,10 @@
         firewall-cmd --zone=public --add-port=8080-8081/tcp //临时
         irewall-cmd --permanent --zone=public --list-services //服务空格隔开 例如 dhcpv6-client https ss
         firewall-cmd --permanent --zone=public --list-ports //端口空格隔开 例如 8080-8081/tcp 8388/tcp 80/tcp
+        关闭
+        systemctl stop firewalld.service
+        禁止开机自启
+        systemctl disable firewalld.service
     </pre>
 </body>
 </html>
