@@ -48,8 +48,17 @@ import java.util.regex.Pattern;
  */
 public class MyAtoi {
     public static void main(String[] args) {
-        int method = method("-91283472332");
+
+        String s1 = "-1234";
+        String s2 = "+1234";
+        String s3 = "12345678765432456";
+        String s4 = "dwqdqw123456";
+        String s5 = "    23456";
+        String s6 = "-1234567876543456765123456";
+        String s7 = "-";
+        int method = lastestMethod(s4);
         System.out.println(method);
+
     }
 
 
@@ -71,19 +80,80 @@ public class MyAtoi {
             stringBuffer.append(group);
         }
         //如果所得字符串的长度超过整型的最大最小值，则会报错
-        try{
+        try {
             return Integer.valueOf(stringBuffer.toString());
-        }catch (Exception e){
+        } catch (Exception e) {
             return 0;
         }
     }
 
-    public static int myAtoi(String str) {
+
+    public static int lastestMethod(String str) {
+        //1 判断非空
         if (StringUtils.isBlank(str)) {
             return 0;
         }
-        str.trim();
+        //去空格
+        str = str.trim();
+        //如果只是一个正负号
+        if ("-".equals(str) || "+".equals(str)) {
+            return 0;
+        }
+//        //如果是以
+        String sss = "[0-9-+]";
+//        if (!String.valueOf(str.charAt(0)).matches(sss)) {
+//            return 0;
+//        }
+        String regex = "[0-9]{1,}";
+//        if (!regex.matches(str)) {
+        if (!str.matches(regex)) {
+            StringBuffer stringBuffer = new StringBuffer();
+            //含有非数字字符处理
+            for (int i = 0; i < str.length(); i++) {
+                String c = String.valueOf(str.charAt(i));
+                if (!c.matches(sss)) {
+                    break;
+                }
+                stringBuffer.append(c);
+            }
+            str = stringBuffer.toString();
+        }
+        int result = 0;
+        try {
+            if (!StringUtils.isBlank(str)) {
+                result = Integer.valueOf(str);
+            }
+        } catch (Exception e) {
+            if ('-' == str.charAt(0)) {
+                return -2147483648;
+            }
+            return 2147483647;
+        }
+        return result;
+    }
+
+
+    public static int myAtoi(String str) {
+        //1 判断非空
+        if (StringUtils.isBlank(str)) {
+            return 0;
+        }
+        //判断符号 + -
+        char head = '+';
+//        if ("-".equals(String.valueOf(str.charAt(0)))){
+        if ('-' == str.charAt(0)) {
+            head = str.charAt(0);
+//            str = str.substring(1);
+        }
+        //判断溢出 处理异常
+        if (str.length() > 11) {
+            //需要在这里判断吗，还是捕捉异常
+        }
         String regex = "[-+][0-9]";
+        if (!regex.matches(str)) {
+            //含有非数字字符处理
+            return 0;
+        }
         StringBuffer stringBuffer = new StringBuffer();
         while (true) {
             //
