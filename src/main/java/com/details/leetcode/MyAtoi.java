@@ -56,11 +56,33 @@ public class MyAtoi {
         String s5 = "    23456";
         String s6 = "-1234567876543456765123456";
         String s7 = "-";
-        int method = lastestMethod(s4);
-        System.out.println(method);
+        String s8 = "-+2";
+        int i = strToInt("-2");
+        System.out.println(i);
+//        int method = lastestMethod(s8);
+//        System.out.println(method);
 
     }
 
+    /**
+     * leetcode
+     * @param str
+     * @return
+     */
+    public static int strToInt(String str) {
+        char[] c = str.trim().toCharArray();
+        if (c.length == 0) return 0;
+        long res = 0;
+        int i = 1, sign = 1;
+        if (c[0] == '-') sign = -1;
+        else if (c[0] != '+') i = 0;
+        for (int j = i; j < c.length; j++) {
+            if (c[j] < '0' || c[j] > '9') break;
+            res = res * 10 + (c[j] - '0');
+            if (res > Integer.MAX_VALUE) return sign == 1 ? Integer.MAX_VALUE : Integer.MIN_VALUE;
+        }
+        return sign * (int) res;
+    }
 
     public static int method(String str) {
         if (StringUtils.isBlank(str)) {
@@ -90,6 +112,7 @@ public class MyAtoi {
 
     public static int lastestMethod(String str) {
         //1 判断非空
+//        if("".equals(str)){
         if (StringUtils.isBlank(str)) {
             return 0;
         }
@@ -99,11 +122,11 @@ public class MyAtoi {
         if ("-".equals(str) || "+".equals(str)) {
             return 0;
         }
+        if (str.length() > 1 && ('-' == str.charAt(0) && '+' == str.charAt(1))) {
+            return 0;
+        }
 //        //如果是以
         String sss = "[0-9-+]";
-//        if (!String.valueOf(str.charAt(0)).matches(sss)) {
-//            return 0;
-//        }
         String regex = "[0-9]{1,}";
 //        if (!regex.matches(str)) {
         if (!str.matches(regex)) {
@@ -120,6 +143,7 @@ public class MyAtoi {
         }
         int result = 0;
         try {
+            //如果是特殊符号开头
             if (!StringUtils.isBlank(str)) {
                 result = Integer.valueOf(str);
             }

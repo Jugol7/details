@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lng="en">
+<head>
+    <meta charset="UTF-8">
+    <title>集合</title>
+</head>
+<body>
+<pre>
+    1.性质，存储的数据。null值
+    2.底层原理
+    3.容量设置
+    4.使用场景
+    一、list
+    1.可重复，有序，null可多重复
+    2.底层使用数组存储元素 Object[]，LinkedList底层为双向链表
+
+    二、map
+    1.key值唯一，value可重复，无序（TreeMap有序），key可一个null，value可多个
+    2.1.8之前，采用 数组+链表，之后数组链表，红黑树，
+    CurrentHashmap ： ，Segment[]，synchronized分段锁
+
+    三、set
+    1.不可重复，无序（TreeSet有序）
+    2.set底层是hashmap，所以HashSet可以有1个null的元素，TreeSet不能有key为null的元素。
+
+    四、其他
+        Vector 底层是数组，可以存储多个null
+        HashTable底层为散列表，无论是key为null，还是value为null，都会报错
+
+</pre>
+</body>
+</html>
