@@ -10,6 +10,12 @@ import lombok.extern.slf4j.Slf4j;
 public class Test {
 
     public static void main(String[] args) {
+
+        ThreadLocal threadLocal = new ThreadLocal();
+        Object o = threadLocal.get();
+
+
+
         log.info("main start");
         MyThread myThread = new MyThread();
         myThread.start();

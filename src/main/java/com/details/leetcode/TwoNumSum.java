@@ -19,8 +19,8 @@ public class TwoNumSum {
     public static void main(String[] args) {
         int[] arr = {2, 1, 7, 7};
         int target = 9;
-        int[] sumFromArray = getSumFromArray(arr, target);
-//        int[] sumFromArray = getSum(arr, target);
+//        int[] sumFromArray = getSumFromArray(arr, target);
+        int[] sumFromArray = getSum(arr, target);
         System.out.println(sumFromArray[0]);
         System.out.println(sumFromArray[1]);
     }
