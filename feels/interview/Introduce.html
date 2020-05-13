@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Introduction</title>
+</head>
+<body>
+<pre>
+nginx简述：反向代理：就是位于用户与服务器之间，对于用户来说，就是目标服务器，通过访问代理服务器就可以获取目标服务器的资源，
+		   用户是不知道目标服务器的地址，在一定程度上是一种保护，作为反向代理服务器可降低网络和服务器的负载，提高访问效率。
+		   负载均衡：将访问分发到各个服务器来提高效率，
+				nginx是服务端负载均衡，用户将请求，nginx进行收集，有nginx进行负载均衡进行转发。
+				ribbon是客户端负载均衡，ribbon是从eureka注册中心服务器端获取服务注册表，缓存在本地，通过本地轮询实现负载均衡（客户端实现）
+		   动态分离：把静态域动态页面有不同的服务器解析，加快解析速度，降低服务器压力。
+
+
+mongodb简述：是一种高可用，可水平扩展（通过多个廉价的服务）的非关系型数据库，存储的方式与关系型数据库不同，BJON/JSON格式，集合对应表，文档对应行，field对应字段column，
+			不支持事务，外键
+			使用场景：庞大的数据量，高可用，数据类型无法确定或者易变，需要高的读写性能。
+			慎用场景：认识时间都需要写，mongo在换主节点时，会有短暂的不可写设计，关联支持较弱，事务较弱，不建索引查询太慢，索引太多影响写入及更新操作
+			分片集群
+			三台服务器，每台上一个路由节点，一个配置节点，三个分片（其中一台作为仲裁节点）
+			熟悉基础的操作命令，
+			恢复与备份
+				mongoexport/mongoimport导入/导出的是JSON格式，而mongodump/mongorestore导入/导出的是BSON格式。JSON可读性强但体积较大，BSON则是二进制文件，体积小但没有可读性。
+				在一些mongodb版本之间，BSON格式可能会随版本不同而有所不同，所以不同版本之间用mongodump/mongorestore可能不会成功，具体要看版本之间的兼容性。
+				当无法使用BSON进行跨版本的数据迁移的时候，使用JSON格式即mongoexport/mongoimport是一个可选项。跨版本的mongodump/mongorestore并不推荐，
+				实在要做请先检查文档看两个版本是否兼容（大部分时候是的）。
+				JSON虽然具有较好的跨版本通用性，但其只保留了数据部分，不保留索引，账户等其他基础信息。使用时应该注意。
+			建立索引，建立分片
+				use databaseName, db.auth()
+				db.tablename。createIndex({"fieldName":1})
+				在admin数据库下，建立分片，片键
+				db.runCommand({enablesharding : "databaseName"});
+				db.runCommand({shardCollection : "e9.invoiceOrder", "key" :{"taxNo":1}});
+				mongorestore -h 192.168.51.110:22001 -c invoiceOrder -d e9 --dir 全路径
+				通过sh.status(),查看分片是否均匀，db.name.stats()查看集合分片情况与数据分布
+
+
+mariadb简述：跟mysql几乎没有区别，开源
+            Galera 双主集群
+            MariaDB Galera Cluster
+            功能：同步复制，真正的多主集群，所有节点可同时读写数据库，自动管理节点成员，新加的节点自动复制，并行复制（行级），可直连，与mysql无异。
+            优势：多主性质，不存在延迟，不存在丢失事务，同时读写的能力，节点间数据是同步的
+            劣势：新加节点开销大，需要复制完整的数据到新节点，有多少个节点，就有多少重复的数据，对网络要求高，效率相对较低，只支持Innodb/xtradb，
+
+接口幂等性：在条件相同的情况下，多次请求返回的是一样的结果
+			A: 代码逻辑判断，sql条件判断
+				通过id，状态等字段
+			B: token机制实现步骤:
+				 1. 生成全局唯一的token,token放到redis或jvm内存,token会在页面跳转时获取.存放到pageScope中,支付请求提交先获取token
+				 2. 提交后后台校验token，执行提交逻辑,提交成功同时删除token，生成新的token更新redis ,这样当第一次提交后token更新了,
+				 页面再次提交携带的token是已删除的token后台验证会失败不让提交, token特点：   要申请，一次有效性，可以限流
+				 注意： redis要用删除操作来判断token，删除成功代表token校验通过，如果用select+delete来校验token，存在并发问题，不建议使用
+
+
+
+</pre>
+</body>
+</html>

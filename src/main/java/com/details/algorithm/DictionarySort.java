@@ -1,6 +1,8 @@
 package com.details.algorithm;
 
+import java.time.LocalDate;
 import java.util.Arrays;
+import java.util.Date;
 
 /**
  * 字典排序
@@ -17,6 +19,12 @@ import java.util.Arrays;
 public class DictionarySort {
 
     public static void main(String[] args) {
+        Date date = new Date();
+        System.out.printf("%tD%n",date);
+        char c1 = 97;
+        char c2 = 'a';
+        System.out.println("qwe="+c1);
+        System.out.println("qwe="+c2);
         int[] num = {1, 2, 3, 5, 3, 2, 3};
         dictionarySort(num);
     }
@@ -43,7 +51,7 @@ public class DictionarySort {
 //        int[] resultEnd = BubbleSort.chickWireSort(ints);
 //        int[] result = new int[num.length];
 //        System.arraycopy(resultHead, 0, result, 0, resultHead.length);
-//        System.arraycopy(resultEnd, 0, result, resultHead.length, result.length);
+//        System.arraycopy(resultEnd, 0, result, resultHead.length, result.length); 越界？
 //        Arrays.toString(result);
         int[] ints = Arrays.copyOfRange(num, index + 1, num.length);
 
