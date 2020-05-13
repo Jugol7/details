@@ -91,18 +91,11 @@ public class BubbleSort {
                     leftChangeIndex = j;
                 }
             }
-
             leftBorder = leftChangeIndex;
             if(change){
                 break;
             }
-
         }
-
-
-
-
-
         return arr;
     }
 
