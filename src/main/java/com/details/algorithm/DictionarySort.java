@@ -20,6 +20,7 @@ public class DictionarySort {
 
     public static void main(String[] args) {
         Date date = new Date();
+        // tD 日期   tT 时间    tY 年
         System.out.printf("%tD%n",date);
         char c1 = 97;
         char c2 = 'a';

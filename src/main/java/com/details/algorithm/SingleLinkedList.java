@@ -1,5 +1,7 @@
 package com.details.algorithm;
 
+import com.details.abstracttest.AbstractTest;
+import com.details.abstracttest.TestImpl;
 import lombok.Data;
 
 
@@ -27,7 +29,7 @@ public class SingleLinkedList {
             System.out.print(bak.getVal());
             bak = bak.next;
         }
-        SingleNode singleNode = reverseLinked(node1);
+        SingleNode singleNode = reverse(node1);
         System.out.println();
         System.out.println("-------------------------------------------------");
         while(singleNode != null){
@@ -45,6 +47,21 @@ public class SingleLinkedList {
         singleNode.next.setNext(singleNode);
         singleNode.setNext(null);
         return singleNode1;
+    }
+
+    //非递归实现
+    public static SingleNode reverse(SingleNode current) {
+        SingleNode previous = null;
+        SingleNode next = null;
+        while (current != null) {
+            //存储下一节点
+            next = current.next;
+            current.next = previous;        //反转
+            //更新遍历节点
+            previous = current;
+            current = next;
+        }
+        return previous;
     }
 }
 
