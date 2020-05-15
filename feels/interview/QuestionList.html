@@ -36,16 +36,75 @@
 
         Java中的异常有哪几类？分别怎么使用？
             Throwable根——>
-                error错误：OutOfMemoryError，StackOverflowError
-                exceptions异常：checked(编译时)不改不能运行，runtime(运行时)可运行，可通过trycatch捕获，或者throw
+                error错误：运行时内部错误或者资源耗尽。OutOfMemoryError，StackOverflowError，会提示用户尽快停止运行。
+                exceptions异常：checked(编译时，例如 IO)不改不能运行，runtime(运行时，例如NPE，ClassNotFind)可运行，
+            可通过try catch捕获，或者throw，或者在方法上Throws
 
-        常用的集合类有哪些？比如List如何排序？
-    Collection List Map Set
+        常用的集合类有哪些？比如List如何排序？详图：https://blog.csdn.net/u010887744/article/details/50575735
+            都可以通过Iterator接口遍历迭代
+            Collection接口下的子接口为
+                List（列表）：有序，可重复，长度可变，查询快，插入删除慢（移动元素）
+                    ArrayList：有序可重复，底层数组，查询快，增删慢（需要移动元素），线程不安全，扩容大小为 原来的+原来的 >> 1
+                    LinkedList：有序可重复，底层是双向链表，查询慢（需要遍历），增删快，线程不安全
+                    还提供了List接口中没有定义的方法，专门用于操作表头和表尾元素，可以当作堆 栈、队列和双向队列使用。
+                    Vector：有序可重复，底层数组，查询快，增删慢（需要移动元素），线程不安全，效率低，扩容大小为一倍
+                Set（集）：无序，不可重复。
+                    HashSet：无序，不可重复，底层是Hash表，存取速度快。
+                    哈希表存放的是哈希值。HashSet存储元素的顺序并不是按照存入时的顺序（和List显然不 同） 而是按照哈希值来存的所以取数据也是按照哈希值取得。
+                    哈希值通过元素的hashcode方法来获取的, HashSet首先判断两个元素的哈希值，如果哈希值一样，接着会比较 equals方法 如果 equls结果为true ，
+                    HashSet就视为同一个元素。如果equals为false就不是 同一个元素。此时会形成一个哈希桶。
+                    LinkedHashSet：使用链表作为插入顺序，使用Hash表存储，
+                    TreeSet：有序，不可重复，底层是NavigableMap extends SortedSet
+                Queue：
+            Map（映射）：无序，key唯一，可有一个null，value可有多个
+                map中几个重要的
+                    1.HashMap：key不可重，value可重，可以为null，底层是数组加链表（超过8转换为红黑树）1.8
+                    2.TreeMap：key不可重，value可重，底层是二叉树
+                    3.HashTable：key跟value都不可重，线程安全
+                大方向上，HashMap 里面是一个数组，然后数组中每个元素是一个单向链表。上图中，每个绿色 的实体是嵌套类 Entry 的实例，
+                Entry 包含四个属性：key, value, hash 值和用于单向链表的 next。
+                1. capacity：当前数组容量，始终保持 2^n，可以扩容，扩容后数组大小为当前的 2 倍。
+                2. loadFactor：负载因子，默认为 0.75。
+                3. threshold：扩容的阈值，等于 capacity * loadFactor
+                Java8 对 HashMap 进行了一些修改，大的不同就是利用了红黑树，所以其由 数组+链表+红黑 树 组成。
+                根据 Java7 HashMap 的介绍，我们知道，查找的时候，根据 hash 值我们能够快速定位到数组的 具体下标，但是之后的话，需要顺着链表一个个比较下去才能找到我们需要的，
+                时间复杂度取决 于链表的长度，为 O(n)。为了降低这部分的开销，在 Java8 中，当链表中的元素超过了 8 个以后， 会将链表转换为红黑树，在这些位置进行查找的时候可以降低时间复杂度为 O(logN)。
+            ConcurrentHashMap
+                ConcurrentHashMap 和 HashMap 思路是差不多的，但是因为它支持并发操作，所以要复杂一 些。整个 ConcurrentHashMap 由一个个 Segment 组成，
+                Segment 代表”部分“或”一段“的 意思，所以很多地方都会将其描述为分段锁。注意，行文中，我很多地方用了“槽”来代表一个 segment。
+                简单理解就是，ConcurrentHashMap 是一个 Segment 数组，Segment 通过继承 ReentrantLock 来进行加锁，所以每次需要加锁的操作锁住的是一个 segment，
+                这样只要保证每 个 Segment 是线程安全的，也就实现了全局的线程安全
+                Java8 引入了红黑树。
+
+            Dictionary是抽象类，HashTable继承此且实现Map等接口
+            所有带有tree与linked都是有序的（插入顺序或者自然顺序）
+
         ArrayList和LinkedList内部的实现大致是怎样的？他们之间的区别和优缺点？
+            ArrayList底层是数组，自动扩容时，扩容大小为 原来的+原来的 >> 1；查询速度快，增删慢（由于需要移动数组元素的位置）
+            LinkedList底层是双向链表，查询慢（需要遍历），增删慢（只需修改节点的前后节点就行）
+
         内存溢出是怎么回事？请举一个例子？
+            使用内存过大，导致在运行时，使用的内存比提供的内存大，无法运行，出现内存溢出问题。
+                引起内存溢出的原因有很多种，常见的有以下几种：
+                　　1.内存中加载的数据量过于庞大，如一次从数据库取出过多数据；
+                　　2.集合类中有对对象的引用，使用完后未清空，使得JVM不能回收；
+                　　3.代码中存在死循环或循环产生过多重复的对象实体；
+                　　4.使用的第三方软件中的BUG；
+                　　5.启动参数内存值设定的过小；
+        　　java.lang.StackOverflowError
+    　　      【原因】：这也内存溢出错误的一种，即线程栈的溢出，要么是方法调用层次过多（比如存在无限递归调用），要么是线程栈太小。
+    　　      【解决】：优化程序设计，减少方法调用层次；调整-Xss参数增加线程栈大小
+
         ==和equals的区别？
+            == 对于基本类型来说是值比较，对于引用类型来说是比较的是引用；
+            而 equals 默认情况下是引用比较，只是很多类重新了 equals 方法，比如 String、Integer 等把它变成了值比较，所以一般情况下 equals 比较的是值是否相等。
         hashCode方法的作用？
+            hashCode： 通过对象的内存地址，经过hash算法得到的一个值，作用是确定对象在内存中的位置，主要使用在集合的数据存储上，例如set中不允许重复的值，
+            就是通过hashCode与equals两个方法来确定是否重复的。先hashCode在equals，顺序不可变化。https://www.cnblogs.com/yuyu666/p/9733572.html
+
         NIO是什么？适用于何种场景？
+    多路复用IO，
+
         HashMap实现原理，如何保证HashMap的线程安全？
         JVM内存结构，为什么需要GC？
         NIO模型，select/epoll的区别，多路复用的原理
@@ -58,6 +117,11 @@
         如何用Java分配一段连续的1G的内存空间？需要注意些什么？
         Java有自己的内存回收机制，但为什么还存在内存泄露的问题呢？
         什么是java序列化，如何实现java序列化?(写一个实例)？
+        Java反射：（运行状态中知道类所有的属性和方法）
+            在运行中，对于任意一个类我们都可以知道所有的方法与属性，并且对于任意一个对象，我们可调用任意一个方法，这种动态获取信息以及动态调用方法的方式就是反射。
+            在Java中一般声明一个对象，会有编译时类型与运行时类型
+            例如： A a = new B();  A是编译时类型，B才是运行时类型
+            如果编译时根本无法预知该对象和类属于哪些类，程序只能依靠运行时信息来发现该对象 和类的真实信息，此时就必须使用到反射了。
         String s = new String("abc");创建了几个 String Object?
 
     三、JVM
