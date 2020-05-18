@@ -3,7 +3,6 @@ package com.details.abstracttest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import sun.reflect.Reflection;
 
 /**
  *  ==   equals()
@@ -11,7 +10,8 @@ import sun.reflect.Reflection;
 public class TestEquals {
 
     public static void main(String[] args) {
-
+        int test = test(1, 3);
+        System.out.println(test);
         int a = 1;
         int b = 1;
         System.out.println(a == b);
@@ -28,6 +28,22 @@ public class TestEquals {
         //@Data 会重写
         System.out.println(t1.equals(t2));
 
+    }
+
+    /**
+     * test
+     * @param a
+     * @param b
+     * @return
+     */
+    public static int test(int a, int b){
+        if(b == 0){
+            return 0;
+        }
+        if(b %2 ==0){
+            return test(a+a, b/2);
+        }
+        return test(a+a, b/2) + a;
     }
 
 

@@ -104,6 +104,11 @@
 
         NIO是什么？适用于何种场景？
     多路复用IO，
+    Java New IO，同步阻塞/非阻塞IO
+
+    Channel
+    Selector
+    Buffer
 
         HashMap实现原理，如何保证HashMap的线程安全？
         JVM内存结构，为什么需要GC？
@@ -122,6 +127,18 @@
             在Java中一般声明一个对象，会有编译时类型与运行时类型
             例如： A a = new B();  A是编译时类型，B才是运行时类型
             如果编译时根本无法预知该对象和类属于哪些类，程序只能依靠运行时信息来发现该对象 和类的真实信息，此时就必须使用到反射了。
+            Class类，核心类，可获取类的属性与方法等信息。
+            Field类，Java.lang.reflect包中的类，包含成员变量，可获取或设置类中的属性值。
+            Method类，Java.lang.reflect包中的类，包含类的方法，可获取方法的信息及调用方法。
+            Constructor类，Java.lang.reflect包中的类，包含类的构造方法。
+            三种方式：
+                1.Person p = new Person();
+                Class c = p.getClass();
+                2.Class c = Person.class;
+                3.Class c = Class.forName("全路径");
+            此时就可以通过 c 获取方法与属性等信息了。
+
+
         String s = new String("abc");创建了几个 String Object?
 
     三、JVM
