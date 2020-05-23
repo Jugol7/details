@@ -115,6 +115,15 @@
         * HashMap实现原理，如何保证HashMap的线程安全？
         * JVM内存结构，为什么需要GC？
         * NIO模型，select/epoll的区别，多路复用的原理
+            NIO模型：当一个用户进程发起系统调用recvfrom，系统不会阻塞进程，而是返回一个ewouldblock，标识数据还没准备好，用户进程就可以去干别的事了，于是用户进程会再一次抵用recvfrom，
+                    当内核进行完IO操作，将数据放到了内核中进程对应的buffer中，在将buffer中的数据copy到用户进程空间。返回数据。(这种模型可能会遇到，CPU拉满的情况)
+            多路复用模型：用户进程调用select，这个select函数就会被block，系统内核会监视中这个select所管理的socket，一旦有socket拿到数据，
+                        select就会通知用户进程进行read操作，把数据从内核中copy给用户进程。，（这种模式适合有很多连接的情况，连接少的情况效率很低，模型的本质跟阻塞IO一样，只是多了一个函数来管理多个socket）。
+            select：是通过监视文件描述符，select单个进程打开的FD受限制，采取轮询的方式效率较低。
+            epoll：epoll支持水平触发和边缘触发，最大的特点在于边缘触发，它只告诉进程哪些fd刚刚变为就绪态，并且只会通知一次。
+                    还有一个特点是，epoll使用“事件”的就绪通知方式，通过epollctl注册fd，一旦该fd就绪，内核就会采用类似callback的回调机制来激活该fd，epollwait便可以收到通知。
+            select通过轮询去查看数据是否准备好，epoll是通过事件调用返回机制，效率更高。
+
         * Java中一个字符占多少个字节，扩展再问int, long, double占多少字节
         * 创建一个类的实例都有哪些办法？
         * final/finally/finalize的区别？
