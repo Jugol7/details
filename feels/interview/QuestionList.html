@@ -125,6 +125,23 @@
             select通过轮询去查看数据是否准备好，epoll是通过事件调用返回机制，效率更高。
 
         * Java中一个字符占多少个字节，扩展再问int, long, double占多少字节
+
+            整型
+                byte    1字节     8 bit 位         - 2`7 - 2`7-1 (-128 - 127)
+                short   2字节     2*8 bit 位       - 2`15 - 2`15-1 (-32768 - 32767)
+                int     4字节     4*8 bit 位       以此就是 2`位-1 次方的取值范围
+                long    8字节     8*8 bit 位
+            浮点型
+                float   4字节     4*8 bit 位 （默认有后缀，如： 3.14F，如果没有带F就是double类型）
+                double  8字节     8*8 bit 位
+            boolean     1字节（理论只用了1 bit，实际占用了 1字节）  false/true
+            char        2字节（C中占1字节）       2^15 - 2^15-1 （ 即：－32768～32767 )
+
+            总结：  1字节的  byte/boolean；
+                    2字节的 short/char；
+                    4字节的 int/float
+                    8字节的 long/double
+
         * 创建一个类的实例都有哪些办法？
         * final/finally/finalize的区别？
         * Session/Cookie的区别？
