@@ -143,10 +143,23 @@
                     8字节的 long/double
 
         * 创建一个类的实例都有哪些办法？
+    1. A a = new A();
+    2. 反射 A a = A.class.newInstance();用newInstance的方式，必须保证A有无参构造；Class c = Class.forName("类的全路径")； A。getClass();
+    3. 反序列化，通过IO流进行反序列化操作，可得到对象实例。 ObjectInputStream
+    4. 克隆 implements Cloneable 调用clone()
+    5. 通过工厂方法返回对象，ru：String.valueOf(24)；
+
         * final/finally/finalize的区别？
         * Session/Cookie的区别？
         * String/StringBuffer/StringBuilder的区别，扩展再问他们的实现？
         * Servlet的生命周期？
+    1.加载与实例化：由servlet容器负责，当servlet请求来时，容器就会通过java反射API来创建一个servlet实例。
+    2.初始化：实例化之后，调用init()初始化此对象，目的是在使用这个实例之前，做一些准备工作，如：加载数据库连接，通过getInitParameters获取web.xml中的配置信息，
+              如果初始化失败，抛出异常。在servlet生命周期中init方法指挥调用一次。
+    3.畜栏里请求：之后调用service()，只有成功调用init()方法，才能调用service()；servlet实例通过servletRequest获取一些请求来的相关数据进行瓜处理，然后
+                  使用servletResponse设置返回信息。
+    4. 服务结束：当servlet容器检测到servlet实例使用结束了，就会调用destroy(),进行回收(Java干的)。
+
         * 如何用Java分配一段连续的1G的内存空间？需要注意些什么？
         * Java有自己的内存回收机制，但为什么还存在内存泄露的问题呢？
         * 什么是java序列化，如何实现java序列化?(写一个实例)？
