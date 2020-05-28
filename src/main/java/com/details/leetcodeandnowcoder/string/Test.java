@@ -8,6 +8,7 @@ package com.details.leetcodeandnowcoder.string;
  **/
 public class Test {
 
+    //static修饰的变量在类加载时的准备阶段在方法区中分配内存，在初始化时初始化，而final的不是。
     private final static int a = 1;
     private static int b = 1;
     private int c = 1;
