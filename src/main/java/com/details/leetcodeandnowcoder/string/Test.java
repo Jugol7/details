@@ -8,6 +8,10 @@ package com.details.leetcodeandnowcoder.string;
  **/
 public class Test {
 
+    private final static int a = 1;
+    private static int b = 1;
+    private int c = 1;
+
     public static void test() {
 
         int i = 0;
