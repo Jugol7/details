@@ -6,6 +6,30 @@
 </head>
 <body>
 <pre>
+
+	同步
+	E:\work\eicloud\eicloud\src\main\java\com\aisino\eicloud\controller\invoice\datasynchronization\DataSynchronizationController.java
+	E:\work\eicloud\eicloud-notice\src\main\java\com\aisino\eicloudnotice\receive\synch\InvoiceDataSyncNumListener.java
+	签章
+	E:\work\eicloud\eicloud-notice\src\main\java\com\aisino\eicloudnotice\receive\signature\SignatureTimeWheelTask.java
+	netty持久化数据
+	E:\work\dataStatistics\src\main\java\com\aisino\disruptor\impl\MessageConsumerImpl.java
+
+易票云简述：
+	易票云是一个给广大企业对发票的开具，同步，统计，等一系列管理的系统，是一个微服务架构的系统，总共由eureka，eicloud，api，notice这四个服务，eureka服务注册中心
+	用于对其他三个服务的管理，eicloud，易票云系统的应用服务，用户操作界面，包括登陆，发票开具，发票查询，发票统计，开票设置等多方面的展示，api服务主要是开票服务
+	用户在eicloud服务对应进行的开票操作，都有api来处理，包括单张开票，批量开票，扫码开票等，其次api服务还提供对外接口服务，还有一个notice，队列服务，发票同步，编码
+	同步，是通过netty项目操作客户端助手，获取开票软件中的数据，在netty项目中将数据持久化。将同步过来的发票转换成Document，一张张去出持久化，同步的书分为两种，更新或者新增，更新就
+	发票的性质，发票的日期等信息，新增的话，就需要将cpp客户端来源的发票数据，封装成对应mongo的数据类型Document，持久化到mongo，同时将发票数据放到统计队列中。
+	如果数据从开票软件同步到易票云成功，就进行签章，封装成签章接口对应的数据，放到MQ队列中。
+	这个四个服务独立部署，相互调用，
+	批量开票：
+	发票同步，编码同步：
+	发票统计：
+	发票列表设置：
+
+
+
 nginx简述：反向代理：就是位于用户与服务器之间，对于用户来说，就是目标服务器，通过访问代理服务器就可以获取目标服务器的资源，
 		   用户是不知道目标服务器的地址，在一定程度上是一种保护，作为反向代理服务器可降低网络和服务器的负载，提高访问效率。
 		   负载均衡：将访问分发到各个服务器来提高效率，

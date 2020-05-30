@@ -47,11 +47,24 @@ public class Test {
 
     }
 
-
+    /**
+     * 求栈深度
+     *  设置 虚拟机栈大小：   -Xss100k
+     *  不设置，默认输出 24765
+     */
+    public void test4(){
+            b++;
+            try{
+            test4();
+            }catch (Throwable  e){
+                System.out.println(b);
+        }
+    }
     public static void main(String[] args) {
+        new Test().test4();
 //        test();
-        System.out.println(test2());
-        System.out.println(test3());
+//        System.out.println(test2());
+//        System.out.println(test3());
 //        System.out.println(new B().getValue());
     }
 
