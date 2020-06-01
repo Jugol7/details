@@ -4,9 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.FutureTask;
+import java.util.concurrent.*;
 
 /***
  * Callable 的 call 方法有返回值，Runnable 的 run 方法没有返回值。
@@ -22,9 +20,16 @@ public class Test {
 
     public static void main(String[] args) {
         MyCallable myCallable = new MyCallable();
-        FutureTask futureTask = new FutureTask(myCallable);
-        Thread thread = new Thread(futureTask);
-        thread.start();
+        FutureTask<String> futureTask = new FutureTask<>(myCallable);
+//        Thread thread = new Thread(futureTask);
+//        thread.start();
+
+        ThreadPoolExecutor executorService = new ThreadPoolExecutor(3,5,11,TimeUnit.SECONDS,new ArrayBlockingQueue<>(3),new ThreadPoolExecutor.DiscardPolicy());
+        executorService.submit(futureTask);
+//        futureTask.get();
+
+
+
         try {
             //获取MyCallable的返回值
             System.out.println(futureTask.get());
