@@ -24,12 +24,18 @@ public class Test {
 //        Thread thread = new Thread(futureTask);
 //        thread.start();
 
+        Object o = 'f';
+        System.out.println(o.getClass());
+        float d = 1; //向下转型
+//        float ed = 1.0;//没有 f
+        double t = 1.0;// 向下转型
+        double t2 = 1;
+//        Double f = 1;
+        int w = 10000;// 向上转型
+
         ThreadPoolExecutor executorService = new ThreadPoolExecutor(3,5,11,TimeUnit.SECONDS,new ArrayBlockingQueue<>(3),new ThreadPoolExecutor.DiscardPolicy());
         executorService.submit(futureTask);
 //        futureTask.get();
-
-
-
         try {
             //获取MyCallable的返回值
             System.out.println(futureTask.get());
@@ -38,6 +44,8 @@ public class Test {
             Thread.currentThread().interrupt();
         } catch (ExecutionException e) {
             logger.error("线程执行出错："+e);
+        }finally {
+            executorService.shutdown();
         }
     }
 }
