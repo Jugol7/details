@@ -1,6 +1,7 @@
 package com.details.map;
 
 import java.util.HashMap;
+import java.util.Set;
 
 /***
  * debug查看一下流程
@@ -10,7 +11,6 @@ import java.util.HashMap;
 public class ViewInside {
 
     public static void main(String[] args) {
-        int i = 0;
         HashMap<String,String> hashMap = new HashMap<>(3);
         hashMap.put("zlp1","zlp");
         hashMap.put("zlp2","zlp");
@@ -25,7 +25,6 @@ public class ViewInside {
         hashMap.put("zlp11","zlp");
         hashMap.put("zlp12","zlp");
         hashMap.put("zlp13","zlp");
-
 
     }
 
