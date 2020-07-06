@@ -13,7 +13,7 @@ public class BinarySearch {
         int base = 81;
         int [] arr = {2,3,1,4,5,7,8,3};
 //        Integer integer = binarySerach(base, arr,0,arr.length+1);
-        Integer integer = binarySerach2(base, arr);
+        Integer integer = binarySearch2(base, arr);
         System.out.println(integer);
 //        System.out.println("---------------====------------------");
 //        int i = sourceFromSc();
@@ -51,7 +51,7 @@ public class BinarySearch {
      * @param arr
      * @return
      */
-    public static Integer binarySerach2(int base, int[] arr){
+    public static Integer binarySearch2(int base, int[] arr){
         int low = 0;
         int high = arr.length;
         int mid;
