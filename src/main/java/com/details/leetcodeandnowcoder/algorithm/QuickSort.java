@@ -21,45 +21,89 @@ public class QuickSort {
     public static void main(String[] args) {
         int[] arr = {10, 7, 2, 4, 7, 62, 3, 4};
 //        int [] arr = {10,7,2,4};
-//        quickSort(0,arr.length-1,arr);
-//        System.out.println("my ways:------"+Arrays.toString(arr));
-        sort(arr, 0, arr.length);
-        System.out.println("anyone ways:------" + Arrays.toString(arr));
+        quickSort1(0,arr.length-1,arr);
+        System.out.println("my ways:------"+Arrays.toString(arr));
+//        sort(arr, 0, arr.length);
+//        System.out.println("anyone ways:------" + Arrays.toString(arr));
     }
 
+    /**
+     * 重写修改，将第一个数作为基准数，一次排序完成，将基准值归位
+     * 这个 前后 后前 这个顺序有基准值，默认选择第一个为基准值，那么先比较后，反之亦然
+     * @param left
+     * @param right
+     * @param array
+     */
     public static void quickSort(int left, int right, int[] array) {
         if (left >= right) return;
+        //头指针
         int start = left;
+        //尾指针
         int end = right;
-        int flag = left;
-        System.out.println("第" + (count++) + "次---------" + Arrays.toString(array));
-        while (left < right) {
-            while ((left < right) && (array[right] > array[flag])) {
-                right--;
+        //基准值
+        int flag = array[left];
+        while (start < end) {
+            //从后往前比较
+            //&& 后面是比较一次，是否又继续的可能
+            while (start < end && flag < array[end]) {
+                end--;
             }
-            if (array[right] < array[flag]) {
-                int tmp = array[right];
-                array[right] = array[flag];
-                array[flag] = tmp;
-                flag = right;
+            array[start] = array[end];
+            //从前往后比较,默认基准值是第一个，= 避免比较
+            while (start < end && flag >= array[start]) {
+                start++;
             }
-            while ((left < right) && (array[left] < array[flag])) {
-                left++;
-            }
-            if (array[left] > array[flag]) {
-                int tmp = array[left];
-                array[left] = array[flag];
-                array[flag] = tmp;
-                flag = left;
-            }
+            array[end] = array[start];
         }
-        quickSort(start, left - 1, array);
-        quickSort(left + 1, end, array);
+        //把基准值归位
+        array[start] = flag;
+        System.out.println("第"+count+"次:------"+Arrays.toString(array));
+        count++;
+        //从基准值开始对两边进行同样的排序操作
+        quickSort(left,start-1,array);
+        quickSort(start+1,right,array);
+    }
+
+    /**
+     * 选择基准值为最后一个元素，先前
+     * @param left
+     * @param right
+     * @param array
+     */
+    public static void quickSort1(int left, int right, int[] array) {
+        if (left >= right) return;
+        //头指针
+        int start = left;
+        //尾指针
+        int end = right;
+        //基准值
+        int flag = array[right];
+        while (start < end) {
+
+            //从前往后比较,默认基准值是第一个，= 避免比较
+            while (start < end && flag >= array[start]) {
+                start++;
+            }
+            array[end] = array[start];
+            //从后往前比较
+            //&& 后面是比较一次，是否又继续的可能
+            while (start < end && flag < array[end]) {
+                end--;
+            }
+            array[start] = array[end];
+        }
+        //把基准值归位
+        array[start] = flag;
+        System.out.println("第"+count+"次:------"+Arrays.toString(array));
+        count++;
+        //从基准值开始对两边进行同样的排序操作
+        quickSort1(left,start-1,array);
+        quickSort1(start+1,right,array);
     }
 
     public static void sort(int[] a, int low, int high) {
         int start = low;
-        int end = high;
+        int end = high - 1;
         int key = a[low];
         while (end > start) {
             //从后往前比较

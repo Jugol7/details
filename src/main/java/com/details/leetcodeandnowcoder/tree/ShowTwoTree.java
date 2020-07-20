@@ -56,7 +56,7 @@ public class ShowTwoTree {
 
     /**
      * 后序遍历 左右根
-     *
+     * 递归方式
      * @param treeNode
      */
     public static void behindSort(TreeNode treeNode) {
@@ -110,6 +110,7 @@ public class ShowTwoTree {
     /**
      * 后序为 左右根
      * 前序为 根左右——> 根右左——>左右根
+     * 使用栈数据结构
      * @param treeNode
      */
     public static void behindSortNoRecursive(TreeNode treeNode){
