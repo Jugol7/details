@@ -44,7 +44,7 @@ public class QuickSort {
         int flag = array[left];
         while (start < end) {
             //从后往前比较
-            //&& 后面是比较一次，是否又继续的可能
+            //&& 后面是比较一次，是否有继续的可能
             while (start < end && flag < array[end]) {
                 end--;
             }

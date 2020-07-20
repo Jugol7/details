@@ -22,9 +22,38 @@ public class ShowTwoTree {
         System.out.println();
         midSortNoRecursive(treeNode);
         behindSortNoRecursive(treeNode);
+        System.out.println();
+        levelTraversal(treeNode);
 
     }
+
+    /**
+     * 树的层次遍历
+     * 采用具备先进先出特征的数据结构
+     *
+     * @param root
+     */
+    public static void levelTraversal(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        LinkedList<TreeNode> linkedList = new LinkedList<>();
+        linkedList.offer(root);
+        while (!linkedList.isEmpty()) {
+            TreeNode poll = linkedList.poll();
+            System.out.print(poll.getVal() + "----");
+            if (poll.getLeft() != null) {
+                linkedList.offer(poll.getLeft());
+            }
+            if (poll.getRight() != null) {
+                linkedList.offer(poll.getRight());
+            }
+        }
+    }
+
+
 //  ----------------递归版本----------------------
+
     /**
      * 前序遍历根左右
      *
@@ -57,6 +86,7 @@ public class ShowTwoTree {
     /**
      * 后序遍历 左右根
      * 递归方式
+     *
      * @param treeNode
      */
     public static void behindSort(TreeNode treeNode) {
@@ -68,21 +98,23 @@ public class ShowTwoTree {
         }
     }
 
-
 //  ----------------非递归版本----------------------
 
     /**
      * 前序
+     *
      * @param treeNode
      */
-    public static void headSortNoRecursive(TreeNode treeNode){
+    public static void headSortNoRecursive(TreeNode treeNode) {
         Stack<TreeNode> stack = new Stack<>();
-        while(treeNode != null || !stack.isEmpty()){
-            if(treeNode != null){
-                System.out.print(treeNode.getVal()+"----");
+        //linkedList也可以作为堆栈或者队列这样特征的数据结构
+        LinkedList<TreeNode> linkedList = new LinkedList<>();
+        while (treeNode != null || !stack.isEmpty()) {
+            if (treeNode != null) {
+                System.out.print(treeNode.getVal() + "----");
                 stack.push(treeNode);
                 treeNode = treeNode.getLeft();
-            }else {
+            } else {
                 TreeNode pop = stack.pop();
                 treeNode = pop.getRight();
             }
@@ -91,17 +123,18 @@ public class ShowTwoTree {
 
     /**
      * 中序
+     *
      * @param treeNode
      */
-    public static void midSortNoRecursive(TreeNode treeNode){
+    public static void midSortNoRecursive(TreeNode treeNode) {
         Stack<TreeNode> stack = new Stack<>();
-        while(treeNode != null || !stack.isEmpty()){
-            if(treeNode != null){
+        while (treeNode != null || !stack.isEmpty()) {
+            if (treeNode != null) {
                 stack.push(treeNode);
                 treeNode = treeNode.getLeft();
-            }else {
+            } else {
                 TreeNode pop = stack.pop();
-                System.out.print(pop.getVal()+"----");
+                System.out.print(pop.getVal() + "----");
                 treeNode = pop.getRight();
             }
         }
@@ -109,19 +142,20 @@ public class ShowTwoTree {
 
     /**
      * 后序为 左右根
-     * 前序为 根左右——> 根右左——>左右根
+     * 前序为 根左右——> 根右左——> 左右根 链表反转
      * 使用栈数据结构
+     *
      * @param treeNode
      */
-    public static void behindSortNoRecursive(TreeNode treeNode){
+    public static void behindSortNoRecursive(TreeNode treeNode) {
         Stack<TreeNode> stack = new Stack<>();
         List<Integer> linkedList = new LinkedList<>();
-        while(treeNode != null || !stack.isEmpty()){
-            if(treeNode != null){
+        while (treeNode != null || !stack.isEmpty()) {
+            if (treeNode != null) {
                 linkedList.add(treeNode.getVal());
                 stack.push(treeNode);
                 treeNode = treeNode.getRight();
-            }else {
+            } else {
                 TreeNode pop = stack.pop();
                 treeNode = pop.getLeft();
             }
@@ -129,16 +163,17 @@ public class ShowTwoTree {
         reveserList(linkedList);
     }
 
-    public static List<Integer> reveserList(List<Integer> linkedList){
+    public static List<Integer> reveserList(List<Integer> linkedList) {
         Iterator<Integer> iterator = linkedList.iterator();
         LinkedList<Integer> l = new LinkedList<>();
         while (iterator.hasNext()) {
+            //每次添加到第一个
             l.addFirst(iterator.next());
         }
         System.out.println(l.size());
         Iterator<Integer> iterator1 = l.iterator();
-        while(iterator1.hasNext()){
-            System.out.print(iterator1.next()+"----");
+        while (iterator1.hasNext()) {
+            System.out.print(iterator1.next() + "----");
         }
         return l;
     }

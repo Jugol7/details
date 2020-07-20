@@ -38,9 +38,9 @@ public class InsertSort {
             int index = i;
             //是否要进行插入的值
             int val = arr[i];
-            while(index > 0 && arr[index] < arr[index-1]){
-                arr[index] = arr[index-1];
-                arr[index-1] = val;
+            while (index > 0 && arr[index] < arr[index - 1]) {
+                arr[index] = arr[index - 1];
+                arr[index - 1] = val;
                 index--;
             }
 

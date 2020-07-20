@@ -56,7 +56,7 @@ public class SingleLinkedList {
             next = current.next;
             //将当前节点的下一个只想pre
             current.next = previous;        //反转
-            //更新遍历节点，pre只想当前节点，
+            //更新遍历节点，pre指向当前节点，
             previous = current;
             //进行下一次
             current = next;

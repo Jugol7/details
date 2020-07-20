@@ -33,7 +33,7 @@ public class BubbleSort {
     public static int[] sort(int[] arr){
         //判断是否存在调换位置
         boolean change = true;
-        //有序边界值
+        //有序边界值，如果后面的元素是有序的，只比较到这
         int sortBorder = arr.length - 1;
         int lastChangeIndex = 0;
         for (int i = 0; i < arr.length; i++) {
