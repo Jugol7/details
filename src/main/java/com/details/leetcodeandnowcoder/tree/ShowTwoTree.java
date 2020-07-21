@@ -24,7 +24,9 @@ public class ShowTwoTree {
         behindSortNoRecursive(treeNode);
         System.out.println();
         levelTraversal(treeNode);
-
+        System.out.println();
+        int i = maxDepth(treeNode);
+        System.out.println("树的深度：" + i);
     }
 
     /**
@@ -177,4 +179,59 @@ public class ShowTwoTree {
         }
         return l;
     }
+
+    /**
+     * 树的深度
+     * 利用递归求左右子树的深度+1
+     * 0ms 39.7M
+     * @param root
+     */
+    public static int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.getLeft()), maxDepth(root.getRight())) + 1;
+    }
+
+    /**
+     * 利用层序遍历
+     * 2ms  39.4M
+     * @param root
+     * @return
+     */
+    public static int maxDepthBFS(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int max = 0;
+        LinkedList<TreeNode> list = new LinkedList<>();
+        LinkedList<TreeNode> temp;
+        list.offer(root);
+        while (!list.isEmpty()) {
+            temp = new LinkedList<>();
+            //遍历整个一层节点，将子节点存起来
+            for (TreeNode node : list) {
+                if (node.getLeft() != null) {
+                    temp.offer(node.getLeft());
+                }
+                if (node.getRight() != null) {
+                    temp.offer(node.getRight());
+                }
+            }
+            list = temp;
+            max++;
+        }
+        return max;
+    }
+
+
+    /**
+     * 深度优先搜索算法
+     * @param root
+     */
+    public static void DFS(TreeNode root){
+
+    }
+
+
 }
