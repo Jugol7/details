@@ -7,7 +7,7 @@ import java.util.Scanner;
  * @author zlp
  * @date 2020/7/15 20:34
  */
-public class Test {
+public class TestOne {
 
     public static void main(String[] args){
 //        method();
