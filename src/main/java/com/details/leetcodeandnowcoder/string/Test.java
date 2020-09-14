@@ -1,12 +1,14 @@
 package com.details.leetcodeandnowcoder.string;
 
 
-import com.details.entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.concurrent.ThreadPoolExecutor;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 /**
  *
@@ -26,6 +28,29 @@ public class Test {
 //        System.out.println(test3());
 //        System.out.println(new B().getValue());
 //        testReduceSelf();
+//        testHashMapClone();
+    }
+
+    /**
+     * hashmap拷贝方法提供了clone()与putAll(),
+     */
+    public static void testHashMapClone(){
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("zlp1","zlp1");
+        hashMap.put("zlp2","zlp2");
+        hashMap.put("zlp3","zlp3");
+        HashMap<String,String> clone = (HashMap<String, String>) hashMap.clone();
+        Set<Map.Entry<String, String>> entries1 = clone.entrySet();
+        hashMap.put("zlp3","zlp3222");
+
+        Set<Map.Entry<String, String>> entries = hashMap.entrySet();
+        for (Map.Entry<String, String> e:entries) {
+            System.out.println(e.getValue());
+        }
+
+        for (Map.Entry<String, String> e:entries1) {
+            System.out.println(e.getValue());
+        }
     }
 
     public static void testReduceSelf(){

@@ -18,13 +18,26 @@ public class ShowTwoTree {
         treeNode.getLeft().setRight(new TreeNode(2));
         treeNode.getRight().setLeft(new TreeNode(9));
         treeNode.getRight().setRight(new TreeNode(21));
-        midSort(treeNode);
+//        midSort(treeNode);
+        System.out.println("先序：");
+        headSortNoRecursive(treeNode);
         System.out.println();
+        System.out.println("中序：");
         midSortNoRecursive(treeNode);
+        System.out.println();
+        System.out.println("后序：");
         behindSortNoRecursive(treeNode);
         System.out.println();
+        System.out.println("层次：");
         levelTraversal(treeNode);
-
+        System.out.println();
+        int i = maxDepth(treeNode);
+        System.out.println("树的深度：" + i);
+        System.out.println("树的DFS");
+        DFS(treeNode);
+        System.out.println();
+        System.out.println("树的BFS");
+        BFS(treeNode);
     }
 
     /**
@@ -170,11 +183,113 @@ public class ShowTwoTree {
             //每次添加到第一个
             l.addFirst(iterator.next());
         }
-        System.out.println(l.size());
+//        System.out.println(l.size());
         Iterator<Integer> iterator1 = l.iterator();
         while (iterator1.hasNext()) {
             System.out.print(iterator1.next() + "----");
         }
         return l;
     }
+
+    /**
+     * 树的深度
+     * 利用递归求左右子树的深度+1
+     * 0ms 39.7M
+     *
+     * @param root
+     */
+    public static int maxDepth(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        return Math.max(maxDepth(root.getLeft()), maxDepth(root.getRight())) + 1;
+    }
+
+    /**
+     * 利用层序遍历
+     * 2ms  39.4M
+     * @param root
+     * @return
+     */
+    public static int maxDepthBFS(TreeNode root) {
+        if (root == null) {
+            return 0;
+        }
+        int max = 0;
+        LinkedList<TreeNode> list = new LinkedList<>();
+        LinkedList<TreeNode> temp;
+        list.offer(root);
+        while (!list.isEmpty()) {
+            temp = new LinkedList<>();
+            //遍历整个一层节点，将子节点存起来
+            for (TreeNode node : list) {
+                if (node.getLeft() != null) {
+                    temp.offer(node.getLeft());
+                }
+                if (node.getRight() != null) {
+                    temp.offer(node.getRight());
+                }
+            }
+            list = temp;
+            max++;
+        }
+        return max;
+    }
+
+
+    /**
+     * 深度优先搜索算法
+     * 沿着树的深度遍历节点
+     * 算法实现：先访问根节点，在遍历左子树，最后遍历右子树，，需要引入堆栈(后进先出)数据结构，最先将右子树压入，在将左子树压入，在将当前根节点压入
+     * 其实就是树的先序遍历
+     *
+     * @param root
+     */
+    public static void DFS(TreeNode root) {
+        if (root == null) {
+            return;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        stack.push(root);
+        while (!stack.isEmpty()) {
+            TreeNode pop = stack.pop();
+            System.out.print(pop.getVal() + "----");
+            if (pop.getRight() != null) {
+                stack.push(pop.getRight());
+            }
+            if (pop.getLeft() != null) {
+                stack.push(pop.getLeft());
+            }
+        }
+    }
+
+    /**
+     * 广度优先搜索算法
+     * 沿着输的层次遍历节点
+     * 算法实现：层序遍历
+     *
+     * @param root
+     */
+    public static void BFS(TreeNode root) {
+        LinkedList<TreeNode> linkedList = new LinkedList<>();
+        LinkedList<TreeNode> son;
+        linkedList.offer(root);
+        while (!linkedList.isEmpty()) {
+            son = new LinkedList<>();
+            for (TreeNode pop : linkedList) {
+                System.out.print(pop.getVal() + "----");
+                if (pop.getLeft() != null) {
+                    son.offer(pop.getLeft());
+                }
+                if (pop.getRight() != null) {
+                    son.offer(pop.getRight());
+                }
+            }
+            linkedList = son;
+
+        }
+
+
+    }
+
 }
