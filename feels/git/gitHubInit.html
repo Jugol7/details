@@ -67,6 +67,12 @@
             git check-ignore -v 文件名 查看忽略规则
             git add -f 文件名 强制将文件提交
 
+        6.环境配置
+
+            git config --global user.name "Administrator"
+            git config --global user.email "admin@example.com"
+            git config --global --list //查看当前git配置信息
+
         忽略已加入到版本库中的文件
         git update-index --assume-unchanged file 忽略单个文件
         git rm -r --cached 文件/文件夹名字 (. 忽略全部文件)
