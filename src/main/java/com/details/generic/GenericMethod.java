@@ -1,9 +1,5 @@
 package com.details.generic;
 
-import java.util.concurrent.Callable;
-import java.util.concurrent.Future;
-import java.util.concurrent.FutureTask;
-
 /***
  * @author zlp
  * @date 16:52 2020/4/19

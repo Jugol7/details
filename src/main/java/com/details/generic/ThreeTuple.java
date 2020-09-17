@@ -13,6 +13,7 @@ public class ThreeTuple<A,B,C> extends TwoTuple<A,B>{
         super(a,b);
         this.c = c;
     }
+    @Override
     public String toString(){
         return ""+a+","+b+","+c;
     }
