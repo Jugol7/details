@@ -2,7 +2,6 @@ package com.details.utils;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.binary.Base64;
-//import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
@@ -12,9 +11,11 @@ import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.Security;
+import java.util.Arrays;
 
 /**
  * Aes加解密工具类
@@ -23,11 +24,11 @@ import java.security.Security;
 public class AesUtil {
 
     private static final String AES_GCM_NOPADDING = "AES/GCM/NoPadding";
-    private static final String UTF_8 = "UTF-8";
+    private static final Charset UTF_8 = StandardCharsets.UTF_8;
 
     public static void main(String[] args) {
         String name = "zlp";
-        Object encryptAES = encryptAES(name, "zlpzlp", 1);
+        Object encryptAES = encryptAES(name, "zlp", 1);
         if (encryptAES != null) {
             log.info(encryptAES.toString());
         }
@@ -53,11 +54,11 @@ public class AesUtil {
                 throw new Exception();
             }
             if(type == 1){
-                byte[] raw = password.getBytes("utf-8");
+                byte[] raw = password.getBytes(UTF_8);
                 SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
                 Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
                 cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
-                byte[] encrypted = cipher.doFinal(sSrc.getBytes("utf-8"));
+                byte[] encrypted = cipher.doFinal(sSrc.getBytes(UTF_8));
                 return getBase64(encrypted);
             }else{
                 byte[] raw = password.getBytes("gbk");
@@ -175,12 +176,8 @@ public class AesUtil {
             }
 
         }
-        byte[] tmpresult = new byte[result.length - copyIndex];
-
-        for (int i = 0; i < tmpresult.length; i++) {
-            tmpresult[i] = result[i];
-        }
-        return new String(tmpresult, encode);
+        byte[] tmpResult = Arrays.copyOf(result,result.length-copyIndex);
+        return new String(tmpResult, encode);
 
     }
 

@@ -43,7 +43,9 @@ public class BaseMongoEntity implements Serializable {
 
     //--------------瞬时字段------------------------
 
-    //查询用结束时间
+    /**
+     * 查询用结束时间
+     */
     @Transient
     @ApiModelProperty(value = "查询用创建结束时间",notes="查询用",example = "1516350070000",dataType = "long")
     private LocalDateTime createEndDate;
