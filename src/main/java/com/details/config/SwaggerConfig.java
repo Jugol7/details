@@ -1,8 +1,10 @@
 package com.details.config;
 
+import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
+import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
@@ -36,6 +38,17 @@ public class SwaggerConfig {
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.details.controller.annotation"))
                 .build();
+    }
+
+    @Bean
+    public Docket getDocket() {
+        Docket docket = new Docket(DocumentationType.SWAGGER_2);
+        docket.apiInfo(apiInfo());
+        docket.select()
+                // 动态扫描 扫描controller层上面打有@Api注解的
+                .apis(RequestHandlerSelectors.withClassAnnotation(Api.class))
+                .paths(PathSelectors.any()).build();
+        return docket;
     }
 
     private ApiInfo apiInfo() {

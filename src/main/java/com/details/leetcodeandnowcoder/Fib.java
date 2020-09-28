@@ -1,6 +1,4 @@
-package com.details;
-
-import java.util.concurrent.atomic.AtomicInteger;
+package com.details.leetcodeandnowcoder;
 
 /**
  * 斐波拉契数列
