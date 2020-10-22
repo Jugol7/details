@@ -4,6 +4,7 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -66,7 +67,7 @@ public class TestHuTool {
      * @date 2020/10/22/0022 16:01:55
      */
     public static void decrypt() {
-
+        SecureUtil.aes();
 
     }
 

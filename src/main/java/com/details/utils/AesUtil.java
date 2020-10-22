@@ -48,9 +48,13 @@ public class AesUtil {
             }
             if(type == 1){
                 byte[] raw = password.getBytes(UTF_8);
+                // 根据key(秘钥？)的字节字符串，指定AES的加密方式
                 SecretKeySpec skySpec = new SecretKeySpec(raw, "AES");
+                // 根据加密模式获取Cipher对象
                 Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
+                // 初始化
                 cipher.init(Cipher.ENCRYPT_MODE, skySpec);
+                // 加密字符转成字节数组
                 byte[] encrypted = cipher.doFinal(sSrc.getBytes(UTF_8));
                 return getBase64(encrypted);
             }else{
@@ -112,6 +116,7 @@ public class AesUtil {
         String s = null;
         byte[] b = str;
         if (b != null) {
+            // 将字节数组用base64加密
             s = new BASE64Encoder().encode(b);
             s = s.replaceAll("\r\n", "");
         }
