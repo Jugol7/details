@@ -5,16 +5,10 @@ import org.apache.commons.codec.binary.Base64;
 import sun.misc.BASE64Decoder;
 import sun.misc.BASE64Encoder;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.SecretKeySpec;
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 
 /**
@@ -39,13 +33,12 @@ public class AesUtil {
      * @param sSrc 待加密字符串
      * @param password 16位key
      * @param type 加密类型
-     * @return
-     * @throws Exception
+     * @return Object
      */
     public static Object encryptAES(String sSrc, String password,Integer type) {
         try {
             if (password == null) {
-                throw new Exception();
+                throw new NullPointerException();
             }
             // 判断Key是否为16位
             int len = 16;
@@ -55,16 +48,16 @@ public class AesUtil {
             }
             if(type == 1){
                 byte[] raw = password.getBytes(UTF_8);
-                SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+                SecretKeySpec skySpec = new SecretKeySpec(raw, "AES");
                 Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
-                cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+                cipher.init(Cipher.ENCRYPT_MODE, skySpec);
                 byte[] encrypted = cipher.doFinal(sSrc.getBytes(UTF_8));
                 return getBase64(encrypted);
             }else{
                 byte[] raw = password.getBytes("gbk");
-                SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+                SecretKeySpec skySpec = new SecretKeySpec(raw, "AES");
                 Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
-                cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+                cipher.init(Cipher.ENCRYPT_MODE, skySpec);
                 byte[] encrypted = cipher.doFinal(sSrc.getBytes("gbk"));
                 return getBase64(encrypted);
             }
@@ -77,14 +70,8 @@ public class AesUtil {
     /**
      * AES 解密
      *    type   1为utf-8 ，2为gbk
-     * @param sSrc
-     * @return
-     * @throws UnsupportedEncodingException
-     * @throws NoSuchPaddingException
-     * @throws NoSuchAlgorithmException
-     * @throws InvalidKeyException
-     * @throws BadPaddingException
-     * @throws IllegalBlockSizeException
+     * @param sSrc s
+     * @return Object
      */
     public static Object decryptAES(String sSrc, String password,Integer type) {
         try{
@@ -98,18 +85,18 @@ public class AesUtil {
             }
             if(type == 1){
                 byte[] raw = password.getBytes(UTF_8);
-                SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+                SecretKeySpec skySpec = new SecretKeySpec(raw, "AES");
                 Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
-                cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+                cipher.init(Cipher.DECRYPT_MODE, skySpec);
                 //先用base64解密
                 byte[] encrypted1 = getFromBase64(sSrc);
                 byte[] original = cipher.doFinal(encrypted1);
                 return new String(original, UTF_8);
             }else{
                 byte[] raw = password.getBytes("gbk");
-                SecretKeySpec skeySpec = new SecretKeySpec(raw, "AES");
+                SecretKeySpec skySpec = new SecretKeySpec(raw, "AES");
                 Cipher cipher = Cipher.getInstance(AES_GCM_NOPADDING);
-                cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+                cipher.init(Cipher.DECRYPT_MODE, skySpec);
                 //先用base64解密
                 byte[] encrypted1 = getFromBase64(sSrc);
                 byte[] original = cipher.doFinal(encrypted1);
@@ -157,18 +144,18 @@ public class AesUtil {
                     - (base64EncryptConent.length() % 8));
         }
         // 注意，Iv只在CBC下使用，，在EBC下不使用
-        byte[] byEncry = new Base64().decode(base64EncryptConent);
+        byte[] byEncrypt = new Base64().decode(base64EncryptConent);
         byte[] keyArray = new byte[16];
         byte[] tempKey = key.getBytes(encode);
         int minLenKey = Math.min(keyArray.length, tempKey.length);
         for (int i = 0; i < minLenKey; ++i)
             keyArray[i] = tempKey[i];
-//        Security.addProvider(new BouncyCastleProvider());
+        //Security.addProvider(new BouncyCastleProvider());
         SecretKeySpec sKey = new SecretKeySpec(keyArray, "AES");
 
         Cipher eCipher = Cipher.getInstance(AES_GCM_NOPADDING);
         eCipher.init(Cipher.DECRYPT_MODE, sKey);
-        byte[] result = eCipher.doFinal(byEncry);
+        byte[] result = eCipher.doFinal(byEncrypt);
         int copyIndex = 0;
         for (int i = result.length - 1; i > -1; i--) {
             if (result[i] == 0x00) {

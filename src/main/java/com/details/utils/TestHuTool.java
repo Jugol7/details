@@ -1,16 +1,15 @@
 package com.details.utils;
 
 import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUnit;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.crypto.Mode;
 import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.symmetric.AES;
-
-import java.util.Arrays;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
- *
  * 测试开元工具  HuTool
  * https://hutool.cn/
  *
@@ -18,8 +17,10 @@ import java.util.Arrays;
  * @Description:
  * @Date 17:19:51 2020/9/22/0022
  */
+@Slf4j
 public class TestHuTool {
 
+    private final static Logger LOGGER_TEST_HU_TOOL = LoggerFactory.getLogger(TestHuTool.class);
 
     public static void main(String[] args) {
 
@@ -28,31 +29,46 @@ public class TestHuTool {
 
     }
 
-    public static void methodAes(){
+    public static void methodAes() {
 
         AES aes = new AES(Mode.CTS, Padding.NoPadding);
 
-        String zlp = aes.encryptBase64("at cn.hutool.crypto.symmetric.SymmetricCrypto.encrypt(SymmetricCrypto.java:209)\n" +
-                "\tat cn.hutool.crypto.symmetric.SymmetricCrypto.encrypt(SymmetricCrypto.java:312)\n" +
-                "\tat cn.hutool.crypto.symmetric.SymmetricCrypto.encryptBase64(SymmetricCrypto.java:332)\n" +
-                "\tat com.details.utils.TestHuTool.methodAes(TestHuTool.java:31)\n" +
-                "\tat com.details.utils.TestHuTool.main(TestHuTool.java:23)\n" +
-                "Caused by: javax.crypto.IllegalBlockSizeException: need at least one block of");
+        String zlp = aes.encryptBase64("SymmetricCrypto.encrypt");
 
-        System.out.println(zlp);
+        LOGGER_TEST_HU_TOOL.info(zlp);
 
     }
 
-    public static void stringToDate(){
+    public static void stringToDate() {
 
-        String strDate = "2020.09.21";
+        String strDate = "";
 
         DateTime parse = DateUtil.parse(strDate);
 
-        System.out.println(parse);
+        LOGGER_TEST_HU_TOOL.info("转换之后的日期为：{}", parse);
 
     }
 
+    /**
+     * 加密
+     *
+     * @author zlp
+     * @date 2020/10/22/0022 16:01:55
+     */
+    public static void encrypt() {
+
+    }
+
+    /**
+     * 加密
+     *
+     * @author zlp
+     * @date 2020/10/22/0022 16:01:55
+     */
+    public static void decrypt() {
+
+
+    }
 
 
 }
