@@ -216,7 +216,9 @@ public class ShowTwoTree {
             return 0;
         }
         int max = 0;
+        // 遍历
         LinkedList<TreeNode> list = new LinkedList<>();
+        // 子节点
         LinkedList<TreeNode> temp;
         list.offer(root);
         while (!list.isEmpty()) {
