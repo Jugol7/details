@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>rabbitmq安装</title>
+</head>
+<body>
+    <pre>
+        1. 对应版本关系 https://www.rabbitmq.com/which-erlang.html
+        2. 版本下载地址 https://github.com/rabbitmq/rabbitmq-server/releases/
+        3. erlang下载地址 https://www.erlang-solutions.com/resources/download.html
+        4. rpm -ivh esl-erlang_23.0.2-1_centos_7_amd64.rpm
+        5. 如果出现failed
+        6. yum install epel-release
+           yum install unixODBC unixODBC-devel wxBase wxGTK SDL wxGTK-gl
+        7. 再次执行步骤4，erlang安装完毕
+        8. rpm -ivh rabbitmq-server-3.8.9-1.el6.noarch.rpm
+        9. 如果报错则安装 yum install socat
+        10. 执行步骤10
+        11. rabbitmqctl status 查看状态
+        12. chkconfig rabbitmq-server on 设置开机启动
+        13. systemctl start rabbitmq-server.service
+            systemctl stop rabbitmq-server.service
+            systemctl restart rabbitmq-server.service
+        14. 如果在目录 /usr/share/doc/rabbitmq-server-x.x.x 没有对应config文件，那么需要去官网下载
+        15. cd /etc/rabbit rabbit-plugins enble rabbitmq_management 启动管理控制界面权限插件
+        16. #添加用户，后面两个参数分别是用户名和密码.
+            rabbitmqctl add_user zlp zlp
+            #添加权限
+            rabbitmqctl set_permissions -p / zlp ".*" ".*" ".*"
+            #修改用户角色
+            rabbitmqctl set_user_tags zlp administrator
+
+    </pre>
+</body>
+</html>

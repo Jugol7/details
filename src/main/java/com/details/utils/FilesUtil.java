@@ -3,6 +3,7 @@ package com.details.utils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
+import org.springframework.util.Assert;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
@@ -22,6 +23,7 @@ import java.util.UUID;
 public class FilesUtil {
 
     private static String filePath;
+
     /**
      * 递归删除文件夹下的文件
      * @param file
@@ -46,8 +48,8 @@ public class FilesUtil {
     /**
      * 上传图片文件
      * 返回存储路径
-     * @param file
-     * @return
+     * @param file file
+     * @return String
      */
     public static String uploadFileImage(MultipartFile file) {
         String msg = checkFileImage(file);
@@ -59,6 +61,7 @@ public class FilesUtil {
             }
         }
         String fileName = file.getOriginalFilename();
+        Assert.notNull(fileName, "文件名为空");
         String suffixName = fileName.substring(fileName.indexOf('.') + 1);
         //Unix 时间戳
         long l = LocalDateTime.now().toEpochSecond(ZoneOffset.of("+8"));
@@ -77,8 +80,8 @@ public class FilesUtil {
     /**
      * 校验图片文件格式
      *
-     * @param file
-     * @return
+     * @param file file
+     * @return String
      */
     private static String checkFileImage(MultipartFile file) {
         String message = "";

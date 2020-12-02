@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Redis 安装</title>
+</head>
+<body>
+        <pre>
+            https://www.cnblogs.com/xsge/p/13841875.html
+            1. wget http://download.redis.io/releases/redis-6.0.8.tar.gz
+            2. tar -xvf redis-6.0.8.tar.gz
+            3. 环境：Redis是C语言开发，安装Redis需要先将Redis的源码进行编译，编译依赖gcc环境。因此需要安装GCC，安装过程中有提示时，输入Y即可。（make命令必须在Redis程序目录下执行）
+            ####安装GCC环境
+            yum install gcc-c++
+            ####查看GCC版本（ContOS7默认安装4.8.5版本）
+            gcc -v
+            升级GCC环境
+            # 当Redis编译出错时，使用命令清除已编译生成的文件（不执行也可以：不推荐）
+                make  distclean
+                ####升级GCC环境为9版本
+                yum  -y  install  centos-release-scl
+                yum  -y  install  devtoolset-9-gcc  devtoolset-9-gcc-c++  devtoolset-9-binutils
+                -------环境设置----------
+                #临时有效，退出 shell 或重启会恢复原 gcc 版本
+                scl enable devtoolset-9 bash
+                #长期有效
+                echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile
+            ####进入Redis程序目录
+            cd  /usr/local/redis-6.x
+            ####make命令，下载环境并编译Redis程序（CentOS7执行会报错，因为gcc版本问题）
+            　　 1、进入Redis程序目录：cd
+            　　 2、编译Redis程序：make
+            　　 3、安装Redis：make install
+                4、默认位置在/usr/local/bin
+
+            4. 远程连接redis配置
+            添加防火墙开放端口
+            firewall-cmd --add-port=6379/tcp
+            firewall-cmd --query-port=6379/tcp
+            redis默认是只允许本地连接的
+            修改配置文件
+            注释 bind 127.0.0.1
+            修改 protected-mode no
+
+
+
+        </pre>
+</body>
+</html>
