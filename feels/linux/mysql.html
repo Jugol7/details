@@ -15,14 +15,23 @@
         6. grep "password" /var/log/mysqld.log
             查看初始密码
         7. mysql -u  -p
-        8.  set global validate_password_policy=0;
-            set global validate_password_length=1;
-            设置这两条才能设置自定长度与格式的之后，才能设置新密码。
-        ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+        出现：ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)
+        修改配置文件：vim /etc/my.cnf  加上下面两行
+                    user=mysql
+                    skip-grant-tables
+                    read-only=0;
+<!--        8.  set global validate_password_policy=0;-->
+<!--            set global validate_password_length=1;-->
+<!--            设置这两条才能设置自定长度与格式的之后，才能设置新密码。-->
+        mysql8中没有这些东西
+                alter user "root"@"localhost" identified with mysql_native_password by "Vimtech_1024";
         9. exit
         想要通过远程连接mysql服务，刷新root 主机访问权限
         10. mysql -uroot  -p12346
         11. use mysql
+            如果是mysql8可能需要，就使用如下命令
+            set read-only=0;
+            flush privileges;
         12. update user set host = '%' where user = 'root';
         13. flush privileges;
         14. select host, user from user;
