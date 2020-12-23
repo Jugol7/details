@@ -3,6 +3,7 @@ package zlp.redis.util;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
@@ -14,8 +15,9 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class MyRedisUtil {
 
-    private Logger logger = LoggerFactory.getLogger(MyRedisUtil.class);
+    private final Logger logger = LoggerFactory.getLogger(MyRedisUtil.class);
 
+    @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
     /**

@@ -21,6 +21,7 @@ public class PeopleServiceImpl implements PeopleServiceI {
     @Resource
     private PeopleDaoI peopleDaoI;
 
+    @Override
     public boolean addPeople(People people) {
         try {
             if (people != null) {
@@ -33,6 +34,7 @@ public class PeopleServiceImpl implements PeopleServiceI {
         return false;
     }
 
+    @Override
     public boolean updatePeople(People people) {
         try{
             peopleDaoI.updatePeople(people);
@@ -43,6 +45,7 @@ public class PeopleServiceImpl implements PeopleServiceI {
         return false;
     }
 
+    @Override
     public boolean deletePeople(int[] ids) {
         try{
             peopleDaoI.deletePeople(ids);
@@ -53,6 +56,7 @@ public class PeopleServiceImpl implements PeopleServiceI {
         return false;
     }
 
+    @Override
     public People selectPeopleById(int id) {
         try{
             People people = peopleDaoI.selectPeopleById(id);

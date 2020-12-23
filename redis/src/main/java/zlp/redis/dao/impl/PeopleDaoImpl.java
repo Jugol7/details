@@ -1,7 +1,6 @@
 package zlp.redis.dao.impl;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Mapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,12 +19,12 @@ import javax.annotation.Resource;
 @Repository
 public class PeopleDaoImpl implements PeopleDaoI {
 
-    @Resource
-    private Logger logger = LoggerFactory.getLogger(PeopleDaoImpl.class);
+    private final Logger logger = LoggerFactory.getLogger(PeopleDaoImpl.class);
 
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
+    @Override
     public void addPeople(People people) {
         try {
             //这里要 people.toString()
@@ -35,6 +34,7 @@ public class PeopleDaoImpl implements PeopleDaoI {
         }
     }
 
+    @Override
     public void updatePeople(People people) {
         try {
             //这里要 people.toString()
@@ -44,6 +44,7 @@ public class PeopleDaoImpl implements PeopleDaoI {
         }
     }
 
+    @Override
     public void deletePeople(int[] ids) {
         try {
             redisTemplate.delete(CollectionUtils.arrayToList(ids));
@@ -52,6 +53,7 @@ public class PeopleDaoImpl implements PeopleDaoI {
         }
     }
 
+    @Override
     public People selectPeopleById(int id) {
         try {
             Object object = redisTemplate.opsForValue().get(id);

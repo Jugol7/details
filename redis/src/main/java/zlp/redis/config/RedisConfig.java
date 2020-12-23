@@ -99,7 +99,7 @@ public class RedisConfig {
      */
     @Bean
     public void initRedisTemplate(RedisTemplate<String,Object> redisTemplate, RedisConnectionFactory factory){
-        //配置redis序列化  如果不设置的话。在 实体没有进行序列化时，会提示 failed to serialize object using DefaultSerializer;
+        // 配置redis序列化  如果不设置的话。在 实体没有进行序列化时，会提示 failed to serialize object using DefaultSerializer;
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new GenericJackson2JsonRedisSerializer());
@@ -117,7 +117,7 @@ public class RedisConfig {
      */
     @Bean
     public RedisTemplate restTemplate(RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<String, Object>();
+        RedisTemplate<String,Object> redisTemplate = new RedisTemplate<>();
         initRedisTemplate(redisTemplate,redisConnectionFactory);
         return redisTemplate;
     }
