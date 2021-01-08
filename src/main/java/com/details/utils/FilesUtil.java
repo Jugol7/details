@@ -1,5 +1,6 @@
 package com.details.utils;
 
+import com.details.entity.Student;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -11,9 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.*;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.zip.*;
 
 /**
@@ -119,7 +119,6 @@ public class FilesUtil {
     }
 
     /**
-     *
      * @param srcFile 压缩文件
      * @param
      * @return
@@ -136,10 +135,8 @@ public class FilesUtil {
     /**
      * 压缩
      *
-     * @param srcFile
-     *            源路径
-     * @param destFile
-     *            目标路径
+     * @param srcFile  源路径
+     * @param destFile 目标路径
      * @throws IOException
      */
     public static void compress(File srcFile, File destFile) throws IOException {
@@ -195,53 +192,78 @@ public class FilesUtil {
      * @author zlp
      * @date 2020/12/30/0030 17:09:13
      */
-    public static void unZip() {
-
-    }
-
-    public static void decompress(String srcPath, String dest) throws IOException {
-        //需要用该代码解压才会出现漏洞，用winrar/unzip均会屏蔽该问题。
-        File file = new File(srcPath);
-        if (!file.exists()) {
-            throw new RuntimeException(srcPath + "所指文件不存在");
+    /**
+     * 解压zip文件
+     *
+     * @param srcFile     源文件
+     * @param destDirPath 解压后文件路径
+     * @return java.lang.String
+     * @author kyle_zeng
+     * @date 2021/1/4 15:21
+     */
+    public static String unZip(File srcFile, String destDirPath) throws RuntimeException {
+        // 判断源文件是否存在
+        if (!srcFile.exists()) {
+            throw new RuntimeException(srcFile.getPath() + "所指文件不存在");
         }
-        ZipFile zf = new ZipFile(file);
-        Enumeration entries = zf.entries();
-        ZipEntry entry = null;
-        while (entries.hasMoreElements()) {
-            entry = (ZipEntry) entries.nextElement();
-            System.out.println("解压" + entry.getName());
-            if (entry.isDirectory()) {
-//                String dirPath = dest + File.separator + entry.getName();
-                File dir = new File(dest);
-                dir.mkdirs();
-            } else {
-                // 表示文件  并不创建文件
-                File f = new File(dest+"/zip.docx");
-                if (!f.exists()) {
-                    String dirs = f.getParentFile().getAbsolutePath();
-                    File parentDir = new File(dirs);
-                    parentDir.mkdirs();
+        // 开始解压
+        ZipFile zipFile = null;
+        String targetFilePath = "";
+        try {
+            zipFile = new ZipFile(srcFile);
+            Enumeration<?> entries = zipFile.entries();
+            while (entries.hasMoreElements()) {
+                ZipEntry entry = (ZipEntry) entries.nextElement();
+                // 如果是文件夹，就创建个文件夹
+                if (entry.isDirectory()) {
+                    String dirPath = destDirPath + File.separator + entry.getName();
+                    File dir = new File(dirPath);
+                    dir.mkdirs();
+                } else {
+                    // 如果是文件，就先创建一个文件，然后用io流把内容copy过去
+                    File targetFile = new File(destDirPath + File.separator + entry.getName());
+                    // 保证这个文件的父文件夹必须要存在
+                    if (!targetFile.getParentFile().exists()) {
+                        targetFile.getParentFile().mkdirs();
+                    }
+                    targetFile.createNewFile();
+                    // 将压缩文件内容写入到这个文件中
+                    InputStream is = zipFile.getInputStream(entry);
+                    FileOutputStream fos = new FileOutputStream(targetFile);
+                    targetFilePath = targetFile.getAbsolutePath();
+                    int len;
+                    byte[] buf = new byte[1024];
+                    while ((len = is.read(buf)) != -1) {
+                        fos.write(buf, 0, len);
+                    }
+                    // 关流顺序，先打开的后关闭
+                    fos.close();
+                    is.close();
                 }
-//                f.createNewFile();
-                // 将压缩文件内容写入到这个文件中
-                InputStream is = zf.getInputStream(entry);
-                FileOutputStream fos = new FileOutputStream(f);
-
-                int count;
-                byte[] buf = new byte[8192];
-                while ((count = is.read(buf)) != -1) {
-                    fos.write(buf, 0, count);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("unzip error from ZipUtils", e);
+        } finally {
+            if (zipFile != null) {
+                try {
+                    zipFile.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                is.close();
-                fos.close();
             }
         }
+        return targetFilePath;
     }
 
-    public static void main(String[] args) throws Exception {
-//        compress(new File(SOURCEPATH));
-        decompress("F:/zip/docx.zip", "F:/zip");
+    public static void main(String[] args) {
+        List<Student> list = new ArrayList<>();
+        list.add(new Student("q", "q"));
+        list.add(new Student("w", "2"));
+        list.add(new Student("e", "e"));
+        list.add(new Student("r", "r"));
+        Map<String, String> collect = list.stream().collect(Collectors.toMap(Student::getLike, Student::getName));
+
+        collect.size();
     }
 
 }
