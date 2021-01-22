@@ -2,6 +2,7 @@ package com.details.utils;
 
 import com.details.entity.Student;
 import lombok.extern.slf4j.Slf4j;
+import net.sf.jmimemagic.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.slf4j.Logger;
@@ -255,15 +256,27 @@ public class FilesUtil {
         return targetFilePath;
     }
 
-    public static void main(String[] args) {
-        List<Student> list = new ArrayList<>();
-        list.add(new Student("q", "q"));
-        list.add(new Student("w", "2"));
-        list.add(new Student("e", "e"));
-        list.add(new Student("r", "r"));
-        Map<String, String> collect = list.stream().collect(Collectors.toMap(Student::getLike, Student::getName));
+    /**
+     * 获取文件类型
+     * @param file f
+     * @return String
+     * @author zlp
+     * @date 2021/1/22/0022 17:44:00
+     */
+    public static String getFileType(File file){
+        MagicMatch magicMatch = null;
+        try {
+            magicMatch = Magic.getMagicMatch(file, true, false);
+        } catch (MagicParseException | MagicMatchNotFoundException | MagicException e) {
+            e.printStackTrace();
+        }
+        assert magicMatch != null;
+        return magicMatch.getExtension();
+    }
 
-        collect.size();
+    public static void main(String[] args) {
+        log.info(getFileType(new File(
+                "E:\\wechat\\WeChat Files\\wxid_9kktj0qu9f5j22\\FileStorage\\File\\2021-01\\新建 Microsoft Word 文档.docx")));
     }
 
 }
