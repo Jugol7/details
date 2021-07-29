@@ -37,6 +37,8 @@
             添加防火墙开放端口
             firewall-cmd --add-port=6379/tcp
             firewall-cmd --query-port=6379/tcp
+            firewall-cmd --remove-port=80/tcp --permanent
+            firewall-cmd --reload
             redis默认是只允许本地连接的
             修改配置文件
             注释 bind 127.0.0.1
