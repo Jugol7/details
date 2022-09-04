@@ -38,9 +38,8 @@ public class StringTest {
      * System.out.println(str3 == str4);//false
      * System.out.println(str3 == str5);//true
      * System.out.println(str4 == str5);//false
-     * @param args
      */
-    public static void main(String[] args) {
+    public static void test1() {
         String s1 = new String("程序员");
         String s2 = s1.intern();
         String s3 = "程序员";
@@ -83,7 +82,7 @@ public class StringTest {
      * 并不是 s5 本身的地址。
      * 由于它们在字符串池的引用都指向同一个“Hello”对象，自然 s1==s6。
      */
-    public void test(){
+    public static void test2(){
         String s1 = "Hello";
         String s2 = "Hello";
         String s3 = "Hel" + "lo";
@@ -101,4 +100,38 @@ public class StringTest {
         System.out.println(s4 == s5);
         System.out.println(s1 == s6);
     }
+
+    /**
+     * 在JDK 1.7下，当执行str2.intern();时，因为常量池中没有“str01”这个字符串，
+     * 所以会在常量池中生成一个对堆中的“str01”的引用(注意这里是引用 ，就是这个区别于JDK 1.6的地方。在JDK1.6下是生成原字符串的拷贝)，
+     * 而在进行String str1 = “str01”;字面量赋值的时候，常量池中已经存在一个引用，所以直接返回了该引用，
+     * 因此str1和str2都指向堆中的同一个字符串，返回true。
+     *
+     * https://blog.csdn.net/tyyking/article/details/82496901
+     *
+     */
+    public static void test3(){
+        String str2 = new String("str")+new String("01");
+        str2.intern();
+        String str1 = "str01";
+        System.out.println(str2==str1);
+    }
+
+    /**
+     * test3()与test4()执行的 intern()不一样
+     * 且 JDK 1.6与1.7 不同
+     * 1.6会复制一份数据到常量池中，1.7是将引用复制到常量池中
+     */
+    public static void test4(){
+        String str2 = new String("str01");
+        str2.intern();
+        String str1 = "str01";
+        System.out.println(str2==str1);
+    }
+
+    public static void main(String[] args) {
+        test3();
+        test4();
+    }
+
 }
