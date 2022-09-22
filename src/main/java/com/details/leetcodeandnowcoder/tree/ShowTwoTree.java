@@ -125,7 +125,9 @@ public class ShowTwoTree {
         while (treeNode != null || !stack.isEmpty()) {
             if (treeNode != null) {
                 System.out.print(treeNode.getVal() + "----");
-                stack.push(treeNode);
+                if(treeNode.getLeft() != null){
+                    stack.push(treeNode);
+                }
                 treeNode = treeNode.getLeft();
             } else {
                 TreeNode pop = stack.pop();
