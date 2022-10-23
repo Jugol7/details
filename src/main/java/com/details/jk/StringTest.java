@@ -129,9 +129,19 @@ public class StringTest {
         System.out.println(str2==str1);
     }
 
+    public static void test5(){
+        String s1 = "a";
+        String s2 = "b";
+        // 引用str6指向堆中(s1 + s2)所还原的新String对象，
+        // str6指向的对象在堆中，而常量"ab"在池中，输出为false
+        String str6 = s1 + s2;
+        System.out.println(str6 == "ab");
+    }
+
     public static void main(String[] args) {
-        test3();
-        test4();
+//        test3();
+//        test4();
+        test5();
     }
 
 }
