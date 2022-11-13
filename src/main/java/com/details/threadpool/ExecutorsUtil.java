@@ -51,7 +51,7 @@ public class ExecutorsUtil extends ThreadPoolExecutor {
 
     public static ExecutorService newFixedThreadPool(int nThreads, String poolName) {
 
-        return new com.imooc.java.escape.threadpool.ExecutorsUtil(
+        return new ExecutorsUtil(
                 nThreads, nThreads, 0L, TimeUnit.MILLISECONDS,
                 new LinkedBlockingDeque<>(), poolName
         );
@@ -64,7 +64,7 @@ public class ExecutorsUtil extends ThreadPoolExecutor {
                          TimeUnit unit, BlockingQueue<Runnable> workQueue,
                          String poolName) {
         super(corePoolSize, maximumPoolSize, keepAliveTime, unit,
-                workQueue, new com.imooc.java.escape.threadpool.ExecutorsUtil.EventThreadFactory(poolName));
+                workQueue, new ExecutorsUtil.EventThreadFactory(poolName));
         this.startTimes = new ConcurrentHashMap<>();
         this.poolName = poolName;
     }
