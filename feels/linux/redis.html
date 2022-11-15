@@ -23,6 +23,8 @@
                 -------环境设置----------
                 #临时有效，退出 shell 或重启会恢复原 gcc 版本
                 scl enable devtoolset-9 bash
+                gcc安装
+                yum -y install gcc automake autoconf libtool make
                 #长期有效
                 echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile
             ####进入Redis程序目录
