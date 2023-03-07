@@ -57,7 +57,7 @@ public class TwoNumSum {
      */
     public static int[] getSum(int[] arr, int target) {
         HashMap<Integer, Integer> hashMap = new HashMap<>();
-        for (int i = 0; i < arr.length - 1; i++) {
+        for (int i = 0; i < arr.length; i++) {
             int temp = target - arr[i];
             if (hashMap.containsKey(temp)) {
                 return new int[]{hashMap.get(temp), i};

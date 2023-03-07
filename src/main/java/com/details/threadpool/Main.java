@@ -7,7 +7,19 @@ import java.util.concurrent.ExecutorService;
  */
 public class Main {
 
+    static int test() {
+        try {
+            return 2;
+        } finally {
+            // finally代码块执行在 try里面的返回值生成之后，返回之前，所以在finally里面返回的话，会导致程序提前结束
+            return 1;
+        }
+    }
+
     public static void main(String[] args) {
+
+        System.out.println(test());
+
 
         ExecutorService executorService = ExecutorsUtil.newFixedThreadPool(
                 10, "imooc-qinyi-"
